@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import router from 'next/router';
-import LoadingScreen from '../components/LoadingScreen';
-import ToggleColorMode from '../components/ToggleColorMode'
+import LoadingScreen from '../components/Utility/Loading-Feature/LoadingScreen';
+import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode'
+import BudgetOverview from '../components/BudgetOverview/BudgetOverview';
 
 export default function BasePage() {
   const { user, error, isLoading } = useUser();
@@ -34,7 +34,7 @@ export default function BasePage() {
   return (
     <div>
       <ToggleColorMode/>
-      
+      <BudgetOverview/>
     </div>
   );
 }
