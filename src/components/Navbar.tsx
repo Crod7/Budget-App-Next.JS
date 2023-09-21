@@ -5,6 +5,7 @@ import Link from 'next/link';
 function Navbar() {
   const { user, error, isLoading } = useUser();
 
+
   if (isLoading) {
     return <div></div>;
   }
