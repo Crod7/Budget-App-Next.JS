@@ -1,0 +1,31 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --shadow: 0px 5px 33px -13px rgb(0, 0, 0);
+
+  --accent: rgb(0, 232, 15);
+
+  --login-or: rgb(170, 170, 170);
+  --gradientBackground: linear-gradient(to bottom, #0045f2 to #9698ff);
+  --inputBox: white;
+  --primaryFont: black;
+  --secondaryFont: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
