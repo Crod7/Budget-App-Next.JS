@@ -30,18 +30,10 @@ body {
   margin: 0px;
 }
 
-/* For light mode */
-.light {
+/* Manages the shadows */
+.lightModeShadow {
   box-Shadow: 0px 5px 33px -13px rgb(0, 0, 0);
-  margin: 2rem;
-  padding: 1rem;
-  border-Radius: 1rem;
 }
-
-/* For dark mode */
-.dark {
+.darkModeShadow {
   box-Shadow: 0px 5px 33px -13px rgba(255, 255, 255, 0.427);
-  margin: 2rem;
-  padding: 1rem;
-  border-Radius: 1rem;
 }
