@@ -4,23 +4,36 @@ import LoadingScreen from '../components/Utility/Loading-Feature/LoadingScreen';
 import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode'
 import BudgetOverview from '../components/BudgetOverview/BudgetOverview';
 import UserForm from '../components/UserForm/UserForm';
+import clientPromise from '@/lib/database/mongodb';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+
+type ConnectionStatus = {
+  isConnected: boolean
+}
+
+export const getServerSideProps: GetServerSideProps<
+  ConnectionStatus
+> = async () => {
+  try {
+    await clientPromise
+    return {
+      props: { isConnected: true },
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      props: { isConnected: false },
+    }
+  }
+}
 
 
-
-export default function BasePage() {
+export default function BasePage({
+  isConnected,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { user, error, isLoading } = useUser();
 
-  // If user is already authenticated, redirect to the dashboard or another page
-  /*
-  useEffect(() => {
-  
-    if (user) {
-      router.push('/home');
-    } else {
-      router.push('/login');
-    }
-  }, [user]);
-  */
+
 
   if (isLoading) {
     return (
@@ -36,9 +49,21 @@ export default function BasePage() {
 
   return (
     <div>
-      <UserForm />
-      <ToggleColorMode />
-      <BudgetOverview />
+      {
+        isConnected ? (
+          <h2 className="subtitle" > You are connected to MongoDB</h2>
+        ) : (
+          <h2 className="subtitle">
+            You are NOT connected to MongoDB. Check the <code>README.md</code>{' '}
+            for instructions.
+          </h2>
+        )
+      }
+      <div>
+        <UserForm />
+        <ToggleColorMode />
+        <BudgetOverview />
+      </div>
     </div>
   );
 }
