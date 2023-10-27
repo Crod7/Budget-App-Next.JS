@@ -36,9 +36,9 @@ export default function BasePage() {
 
   return (
     <div>
-      <UserForm/>
-      <ToggleColorMode/>
-      <BudgetOverview/>
+      <UserForm />
+      <ToggleColorMode />
+      <BudgetOverview />
     </div>
   );
 }

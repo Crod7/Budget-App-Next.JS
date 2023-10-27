@@ -33,7 +33,7 @@ function Navbar() {
         ) : (
           <div className="flex items-center">
             <li className="ml-6">
-              <Link href="/api/auth/login" className=" border border-2 rounded-md px-2 py-1 font-bold ">
+              <Link href="/api/auth/login" className="border border-2 rounded-md px-2 py-1 font-bold ">
                 Login
               </Link>
             </li>
