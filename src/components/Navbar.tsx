@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
-import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
+import { useColorMode } from '@chakra-ui/react';
 import PostUser from '@/lib/database/apiFunctions/PostUser';
+import CheckUser from '@/lib/database/apiFunctions/CheckUser';
 
 function Navbar() {
   const { user, error, isLoading } = useUser();
@@ -11,12 +12,20 @@ function Navbar() {
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
   const customColorModeClass = isDarkMode ? 'dark' : 'light'; // Determine the appropriate class
 
-  useEffect(() => {
+
+
+  const addUser = async () => {
     if (user) {
-      console.log(user);
-      PostUser(user)
+      const userExists = await CheckUser(user.email);
+      if (!userExists) { // If the user dosen't exists we create one
+        PostUser(user);
+      }
     }
-  }, [user]);
+  }
+
+  useEffect(() => {
+    addUser();
+  }, [isLoading]);
 
 
 

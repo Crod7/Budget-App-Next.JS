@@ -1,3 +1,5 @@
+// Attempts to insert req(user data) to database
+
 import clientPromise from "@/lib/database/mongodb";
 
 export default async (req, res) => {
