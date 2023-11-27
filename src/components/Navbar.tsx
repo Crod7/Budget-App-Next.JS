@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
-
+import PostUser from '@/lib/database/apiFunctions/PostUser';
 
 function Navbar() {
   const { user, error, isLoading } = useUser();
@@ -10,6 +10,15 @@ function Navbar() {
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
   const customColorModeClass = isDarkMode ? 'dark' : 'light'; // Determine the appropriate class
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      PostUser(user)
+    }
+  }, [user]);
+
+
 
   if (isLoading) {
     return <div></div>;

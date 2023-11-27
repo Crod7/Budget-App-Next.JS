@@ -14,7 +14,7 @@ function UserForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/database/users/createUser", {
+      const response = await fetch("/api/database/users/PostUser", {
         method: "POST",
         body: JSON.stringify({ name }), // Send the user data as JSON
         headers: {
@@ -40,6 +40,7 @@ function UserForm() {
         <label>
           Name:
           <input
+            id="nameField"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
