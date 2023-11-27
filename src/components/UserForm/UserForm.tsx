@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 type PostProps = {
-    name: string;
+  name: string;
 }
 
 function UserForm() {
@@ -12,9 +12,9 @@ function UserForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
-      const response = await fetch("/api/database/users/postUser", {
+      const response = await fetch("/api/database/users/createUser", {
         method: "POST",
         body: JSON.stringify({ name }), // Send the user data as JSON
         headers: {
