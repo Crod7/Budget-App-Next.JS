@@ -9,6 +9,7 @@ export default async (req, res) => {
 
         if (req.method === "POST") {
             const userData = req.body;
+
             const result = await db.collection("Users").insertOne(userData);
 
             if (result) {
