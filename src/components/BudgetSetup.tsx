@@ -35,14 +35,15 @@ const MyForm: React.FC = () => {
 
     if (user) {
         return (
-            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} m-4 p-4 rounded-lg`} >
+            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} m-16 py-4 px-12 rounded-lg`} >
                 <div className='text-2xl font-bold'>Welcome {user.name}!</div>
                 <div className='text-lg font-bold'>Lets create your budget.</div>
 
                 <form onSubmit={handleSubmit} >
-                    <div>
-                        <label htmlFor="name">Name:</label>
+                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                        <label htmlFor="name" className='w-[15%]  my-auto text-center'>Name:</label>
                         <input
+                            className='w-full rounded-lg py-6'
                             type="text"
                             id="name"
                             value={name}
