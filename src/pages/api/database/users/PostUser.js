@@ -1,8 +1,9 @@
 // Attempts to insert req(user data) to database
 
-import clientPromise from "@/lib/database/mongodb";
+import { clientPromise, databaseName } from "@/lib/database/mongodb";
 
 export default async (req, res) => {
+    console.log('This is the database: ', databaseName)
     try {
         const client = await clientPromise;
         const db = client.db("Budget_App");

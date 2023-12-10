@@ -4,6 +4,8 @@ if (!process.env.MONGODB_URI) {
     throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
 }
 
+const databaseName = "Budget_App";
+
 const uri = process.env.MONGODB_URI
 const options = {}
 
@@ -30,4 +32,4 @@ if (process.env.NODE_ENV === 'development') {
 
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
-export default clientPromise
+export { clientPromise, databaseName }
