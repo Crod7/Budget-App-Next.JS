@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 import { useUser } from '@auth0/nextjs-auth0/client';
-
+import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 
 const BudgetSetup: React.FC = () => {
 
@@ -63,17 +63,31 @@ const BudgetSetup: React.FC = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        // Client-side validation: Check if all inputs are numeric
-        if (income > 100) {
-            console.log(income)
-            return;
-        }
+
 
         // Do something with the input values, e.g., submit to a server
-        console.log('Form submitted with numeric values:', { income, housing, utilities, debt, car, phone, internet, subscriptions, insurance, childCare });
+        const budgetData = {
+            income,
+            housing,
+            utilities,
+            debt,
+            car,
+            phone,
+            internet,
+            subscriptions,
+            insurance,
+            childCare,
+        };
+
+        const updatedUser = {
+            ...user,
+            budget: budgetData,
+        };
+        await UpdatedUser(updatedUser)
+
     };
 
 
