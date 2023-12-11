@@ -16,11 +16,9 @@ function Navbar() {
 
   const addUser = async () => {
     if (user) {
-      console.log(user)
 
       const userExists = await CheckUser(user.email);
-      console.log(userExists)
-      if (userExists === 'userFound') { // If the user dosen't exists we create one
+      if (userExists === 'userNotFound') { // If the user dosen't exists we create one
         await PostUser(user);
       }
     }

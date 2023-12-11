@@ -3,10 +3,9 @@
 import { clientPromise, databaseName } from "@/lib/database/mongodb";
 
 export default async (req, res) => {
-    console.log('This is the database: ', databaseName)
     try {
         const client = await clientPromise;
-        const db = client.db("Budget_App");
+        const db = client.db(databaseName);
 
         if (req.method === "POST") {
             const userData = req.body;

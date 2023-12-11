@@ -5,7 +5,7 @@ import { clientPromise, databaseName } from "@/lib/database/mongodb";
 export default async (req, res) => {
     try {
         const client = await clientPromise;
-        const db = client.db("Budget_App");
+        const db = client.db(databaseName);
 
         if (req.method === "GET") {
             const { email } = req.query;
