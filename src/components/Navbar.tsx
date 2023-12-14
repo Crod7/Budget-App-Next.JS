@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useColorMode } from '@chakra-ui/react';
 import PostUser from '@/lib/database/apiFunctions/PostUser';
 import CheckUser from '@/lib/database/apiFunctions/CheckUser';
+import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode';
+
 
 function Navbar() {
   const { user, error, isLoading } = useUser();
@@ -73,6 +75,7 @@ function Navbar() {
           </Link>
         </div>
       )}
+      <ToggleColorMode />
     </nav>
   );
 }
