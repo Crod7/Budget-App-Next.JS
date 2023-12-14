@@ -20,7 +20,7 @@ export default async (req, res) => {
             const existingUser = await db.collection("Users").findOne({ email });
 
             if (existingUser) {
-                const updatedData = req.body;
+                const { _id, ...updatedData } = req.body;
                 // Perform the update
                 await db.collection("Users").updateOne({ email }, { $set: updatedData });
                 return res.status(200).json({ success: 'User updated' });

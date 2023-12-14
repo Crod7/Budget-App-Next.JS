@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
-import { useUser } from '@auth0/nextjs-auth0/client';
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 import UserData from '@/src/types/UserData';
 
@@ -9,9 +8,7 @@ interface BudgetSetupProps {
 }
 
 const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
-    const { user, error, isLoading } = useUser();
 
-    console.log("This is the prop being passed down: ", userData)
 
     const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
@@ -89,7 +86,7 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
         };
 
         const updatedUser = {
-            ...user,
+            ...userData,
             budget: budgetData,
         };
         await UpdatedUser(updatedUser)
@@ -97,10 +94,10 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
     };
 
 
-    if (user) {
+    if (userData) {
         return (
             <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[400px] max-w-[700px] mx-auto`} >
-                <div className='text-2xl font-bold'>Welcome {user.name}!</div>
+                <div className='text-2xl font-bold'>Welcome {userData.name}!</div>
                 <div className='text-lg font-bold'>Lets create your budget.</div>
 
                 <form onSubmit={handleSubmit} >
