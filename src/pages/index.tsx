@@ -3,10 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import LoadingScreen from '../components/Utility/Loading-Feature/LoadingScreen';
 import BudgetSetup from '@/src/components/BudgetSetup';
 import GetUser from '@/lib/database/apiFunctions/GetUser';
-
-interface UserData {
-    budget?: any;               // The user may or may not have a budget created
-}
+import UserData from '@/src/types/UserData';
 
 export default function BasePage() {
     const { user, error, isLoading } = useUser();
@@ -30,7 +27,7 @@ export default function BasePage() {
         }
     }, [user]);
 
-    // While loading or waiting for data, display loading screen
+    // While loading, display loading screen
     if (isLoading) {
         return (
             <div>
@@ -46,11 +43,11 @@ export default function BasePage() {
 
     // If user logged in and has a budget created
     if (userData && userData.budget) {
-        return <div>Hi</div>;
+        return <BudgetSetup userData={userData} />;
     }
 
-    // If user logged in but budge hasn't been created
+    // If user logged in but budget hasn't been created
     if (userData && !userData.budget) {
-        return <BudgetSetup />;
+        return <BudgetSetup userData={userData} />;
     }
 }

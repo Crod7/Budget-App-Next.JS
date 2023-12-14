@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 import { useUser } from '@auth0/nextjs-auth0/client';
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
+import UserData from '@/src/types/UserData';
 
-const BudgetSetup: React.FC = () => {
+interface BudgetSetupProps {
+    userData: UserData | null;
+}
 
+const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
     const { user, error, isLoading } = useUser();
+
+    console.log("This is the prop being passed down: ", userData)
 
     const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
