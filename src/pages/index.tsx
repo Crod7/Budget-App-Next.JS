@@ -42,7 +42,7 @@ export default function BasePage() {
         return (
             <div>
                 <Navbar userData={userData} setUserData={setUserData} />
-                <BudgetSetup userData={userData} />
+                <BudgetSetup userData={userData} setUserData={setUserData} />
             </div>
         );
     }

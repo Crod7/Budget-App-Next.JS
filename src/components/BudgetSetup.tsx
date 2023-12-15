@@ -5,9 +5,10 @@ import UserData from '@/src/types/UserData';
 
 interface BudgetSetupProps {
     userData: UserData | null;
+    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
 }
 
-const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
+const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData }) => {
 
 
     const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
@@ -87,7 +88,7 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
         };
         try {
             await UpdatedUser(updatedUser)
-            userData = updatedUser;
+            setUserData(updatedUser)
         } catch (error) {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken.", error)
         }
