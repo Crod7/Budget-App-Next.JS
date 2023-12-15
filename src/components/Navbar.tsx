@@ -5,9 +5,14 @@ import { useColorMode } from '@chakra-ui/react';
 import PostUser from '@/lib/database/apiFunctions/PostUser';
 import CheckUser from '@/lib/database/apiFunctions/CheckUser';
 import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode';
+import UserData from '@/src/types/UserData';
 
+interface NavbarProps {
+  userData: UserData | null;
+}
 
-function Navbar() {
+const Navbar: React.FC<NavbarProps> = ({ userData }) => {
+
   const { user, error, isLoading } = useUser();
 
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode

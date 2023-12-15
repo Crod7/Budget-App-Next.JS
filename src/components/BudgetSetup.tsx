@@ -68,9 +68,6 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-
-
-
         // Do something with the input values, e.g., submit to a server
         const budgetData = {
             income,
@@ -84,12 +81,16 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData }) => {
             insurance,
             childCare,
         };
-
         const updatedUser = {
             ...userData,
             budget: budgetData,
         };
-        await UpdatedUser(updatedUser)
+        try {
+            await UpdatedUser(updatedUser)
+            userData = updatedUser;
+        } catch (error) {
+            console.error("UpdateUser Failed: oh no.... our table.... it's broken.", error)
+        }
 
     };
 
