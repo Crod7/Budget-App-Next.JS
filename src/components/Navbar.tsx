@@ -6,12 +6,15 @@ import PostUser from '@/lib/database/apiFunctions/PostUser';
 import CheckUser from '@/lib/database/apiFunctions/CheckUser';
 import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode';
 import UserData from '@/src/types/UserData';
+import GetUser from '@/lib/database/apiFunctions/GetUser';
+
 
 interface NavbarProps {
   userData: UserData | null;
+  setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ userData }) => {
+const Navbar: React.FC<NavbarProps> = ({ setUserData }) => {
 
   const { user, error, isLoading } = useUser();
 
@@ -19,20 +22,36 @@ const Navbar: React.FC<NavbarProps> = ({ userData }) => {
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
   const customColorModeClass = isDarkMode ? 'dark' : 'light'; // Determine the appropriate class
 
+  // We grab userData from the database by searching for it with the user from useUser
+  const getUserData = async () => {
+    if (user) {
+      try {
+        const data = await GetUser(user.email);
+        setUserData(data)
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+  };
 
-
-  const addUser = async () => {
+  const loginUser = async () => {
     if (user) {
 
       const userExists = await CheckUser(user.email);
       if (userExists === 'userNotFound') { // If the user dosen't exists we create one
         await PostUser(user);
+        const newUser = await GetUser(user.email)
+        setUserData(newUser)
       }
+      if (userExists === 'userFound') { // If user does exists, we load data to userData
+        getUserData();
+      }
+
     }
   }
 
   useEffect(() => {
-    addUser();
+    loginUser();
   }, [isLoading]);
 
 
