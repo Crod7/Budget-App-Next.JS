@@ -16,16 +16,16 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     // Use state to manage the input values
-    const [income, setIncome] = useState<number>(0);
-    const [housing, setHousing] = useState<number>(0);
-    const [utilities, setUtilities] = useState<number>(0);
-    const [debt, setDebt] = useState<number>(0);
-    const [car, setCar] = useState<number>(0);
-    const [phone, setPhone] = useState<number>(0);
-    const [internet, setInternet] = useState<number>(0);
-    const [subscriptions, setSubscriptions] = useState<number>(0);
-    const [insurance, setInsurance] = useState<number>(0);
-    const [childCare, setChildCare] = useState<number>(0);
+    const [income, setIncome] = useState<number>();
+    const [housing, setHousing] = useState<number>();
+    const [utilities, setUtilities] = useState<number>();
+    const [debt, setDebt] = useState<number>();
+    const [car, setCar] = useState<number>();
+    const [phone, setPhone] = useState<number>();
+    const [internet, setInternet] = useState<number>();
+    const [subscriptions, setSubscriptions] = useState<number>();
+    const [insurance, setInsurance] = useState<number>();
+    const [childCare, setChildCare] = useState<number>();
 
 
 
@@ -69,6 +69,8 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
 
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
+
+
         setLoadingScreen(true)
 
         event.preventDefault();
@@ -104,122 +106,121 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
                 <div className='text-2xl font-bold'>Welcome {userData.name}!</div>
                 <div className='text-lg font-bold'>Lets create your budget.</div>
 
-                <form onSubmit={handleSubmit} >
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="income" className=' mx-4 my-auto text-center'>Income:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="income"
-                            value={income}
-                            onChange={handleIncomeChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="housing" className=' mx-4 my-auto text-center'>Rent/ Mortgage:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="housing"
-                            value={housing}
-                            onChange={handleHousingChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="utilities" className=' mx-4 my-auto text-center'>Utilities:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="utilities"
-                            value={utilities}
-                            onChange={handleUtilitiesChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="debt" className=' mx-4 my-auto text-center'>Debt:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="debt"
-                            value={debt}
-                            onChange={handleDebtChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="car" className=' mx-4 my-auto text-center'>Car:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="car"
-                            value={car}
-                            onChange={handleCarChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="phone" className=' mx-4 my-auto text-center'>Phone:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="phone"
-                            value={phone}
-                            onChange={handlePhoneChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="internet" className=' mx-4 my-auto text-center'>Internet:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="internet"
-                            value={internet}
-                            onChange={handleInternetChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="subscriptions" className=' mx-4 my-auto text-center'>Subscriptions:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="subscriptions"
-                            value={subscriptions}
-                            onChange={handleSubscriptionsChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="insurance" className=' mx-4 my-auto text-center'>Insurance:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="insurance"
-                            value={insurance}
-                            onChange={handleInsuranceChange}
-                            required
-                        />
-                    </div>
-                    <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
-                        <label htmlFor="childCare" className=' mx-4 my-auto text-center'>Child Care:</label>
-                        <input
-                            className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                            type="number"
-                            id="childCare"
-                            value={childCare}
-                            onChange={handleChildCareChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <button type="submit">Submit</button>
-                    </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="income" className=' mx-4 my-auto text-center'>Income:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="income"
+                        value={income}
+                        onChange={handleIncomeChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="housing" className=' mx-4 my-auto text-center'>Rent/ Mortgage:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="housing"
+                        value={housing}
+                        onChange={handleHousingChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="utilities" className=' mx-4 my-auto text-center'>Utilities:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="utilities"
+                        value={utilities}
+                        onChange={handleUtilitiesChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="debt" className=' mx-4 my-auto text-center'>Debt:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="debt"
+                        value={debt}
+                        onChange={handleDebtChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="car" className=' mx-4 my-auto text-center'>Car:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="car"
+                        value={car}
+                        onChange={handleCarChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="phone" className=' mx-4 my-auto text-center'>Phone:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="phone"
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="internet" className=' mx-4 my-auto text-center'>Internet:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="internet"
+                        value={internet}
+                        onChange={handleInternetChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="subscriptions" className=' mx-4 my-auto text-center'>Subscriptions:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="subscriptions"
+                        value={subscriptions}
+                        onChange={handleSubscriptionsChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="insurance" className=' mx-4 my-auto text-center'>Insurance:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="insurance"
+                        value={insurance}
+                        onChange={handleInsuranceChange}
+                        required
+                    />
+                </div>
+                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                    <label htmlFor="childCare" className=' mx-4 my-auto text-center'>Child Care:</label>
+                    <input
+                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
+                        type="number"
+                        id="childCare"
+                        value={childCare}
+                        onChange={handleChildCareChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <button type="button" onClick={handleSubmit}>Submit</button>
+                </div>
 
-                </form>
+
             </div >
 
         );
