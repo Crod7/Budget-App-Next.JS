@@ -12,9 +12,10 @@ import GetUser from '@/lib/database/apiFunctions/GetUser';
 interface NavbarProps {
   userData: UserData | null;
   setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
+  setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ setUserData }) => {
+const Navbar: React.FC<NavbarProps> = ({ setUserData, setLoadingScreen }) => {
 
   const { user, error, isLoading } = useUser();
 

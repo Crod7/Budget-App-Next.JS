@@ -8,11 +8,12 @@ import Navbar from '@/src/components/Navbar';
 
 export default function BasePage() {
     const { user, error, isLoading } = useUser();
+    const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData | null>(null);
 
 
     // While loading user data, display loading screen
-    if (isLoading) {
+    if (loadingScreen) {
         return (
             <div>
                 <LoadingScreen />
@@ -30,8 +31,8 @@ export default function BasePage() {
     if (userData && userData.budget) {
         return (
             <div>
-                <Navbar userData={userData} setUserData={setUserData} />
-                <BudgetOverview userData={userData} />
+                <Navbar userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
+                <BudgetOverview userData={userData} setLoadingScreen={setLoadingScreen} />
             </div>
         );
     }
@@ -41,8 +42,8 @@ export default function BasePage() {
 
         return (
             <div>
-                <Navbar userData={userData} setUserData={setUserData} />
-                <BudgetSetup userData={userData} setUserData={setUserData} />
+                <Navbar userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
+                <BudgetSetup userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
             </div>
         );
     }
@@ -50,7 +51,7 @@ export default function BasePage() {
     // Default case (e.g., user is not logged in)
     return (
         <div>
-            <Navbar userData={userData} setUserData={setUserData} />
+            <Navbar userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
         </div>
     );
 }

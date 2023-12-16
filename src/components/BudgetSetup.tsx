@@ -6,9 +6,10 @@ import UserData from '@/src/types/UserData';
 interface BudgetSetupProps {
     userData: UserData | null;
     setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
+    setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData }) => {
+const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoadingScreen }) => {
 
 
     const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
