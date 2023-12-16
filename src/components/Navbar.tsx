@@ -23,6 +23,16 @@ const Navbar: React.FC<NavbarProps> = ({ setUserData, setLoadingScreen }) => {
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
   const customColorModeClass = isDarkMode ? 'dark' : 'light'; // Determine the appropriate class
 
+  // Handles login / logout functionality
+  const handleLoginClick = () => {
+    setLoadingScreen(true)
+    window.location.href = '/api/auth/login';
+  }
+  const handleLogoutClick = () => {
+    setLoadingScreen(true)
+    window.location.href = '/api/auth/logout';
+  }
+
   // We grab userData from the database by searching for it with the user from useUser
   const getUserData = async () => {
     if (user) {
@@ -79,9 +89,9 @@ const Navbar: React.FC<NavbarProps> = ({ setUserData, setLoadingScreen }) => {
         ) : (
           <div className="flex items-center">
             <li className="ml-6">
-              <Link href="/api/auth/login" className="border-2 rounded-md px-2 py-1 font-bold ">
+              <button className="border-2 rounded-md px-2 py-1 font-bold" onClick={handleLoginClick}>
                 Login
-              </Link>
+              </button>
             </li>
           </div>
         )}
@@ -95,9 +105,9 @@ const Navbar: React.FC<NavbarProps> = ({ setUserData, setLoadingScreen }) => {
               className="w-10 h-10 rounded-full mr-2"
             />
           )}
-          <Link href="/api/auth/logout" className="border-2 rounded-md px-2 py-1 font-bold">
+          <button className="border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
             Logout
-          </Link>
+          </button>
         </div>
       )}
       <ToggleColorMode />

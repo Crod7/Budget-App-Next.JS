@@ -69,8 +69,9 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
 
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
+        setLoadingScreen(true)
+
         event.preventDefault();
-        // Do something with the input values, e.g., submit to a server
         const budgetData = {
             income,
             housing,
@@ -93,7 +94,7 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
         } catch (error) {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken.", error)
         }
-
+        setLoadingScreen(false)
     };
 
 
