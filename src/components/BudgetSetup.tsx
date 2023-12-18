@@ -70,7 +70,6 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
 
-
         setLoadingScreen(true)
 
         event.preventDefault();
