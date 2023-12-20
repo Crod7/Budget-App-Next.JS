@@ -16,16 +16,16 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     // Use state to manage the input values
-    const [income, setIncome] = useState<number>();
-    const [housing, setHousing] = useState<number>();
-    const [utilities, setUtilities] = useState<number>();
-    const [debt, setDebt] = useState<number>();
-    const [car, setCar] = useState<number>();
-    const [phone, setPhone] = useState<number>();
-    const [internet, setInternet] = useState<number>();
-    const [subscriptions, setSubscriptions] = useState<number>();
-    const [insurance, setInsurance] = useState<number>();
-    const [childCare, setChildCare] = useState<number>();
+    const [income, setIncome] = useState<number>(0);
+    const [housing, setHousing] = useState<number>(0);
+    const [utilities, setUtilities] = useState<number>(0);
+    const [debt, setDebt] = useState<number>(0);
+    const [car, setCar] = useState<number>(0);
+    const [phone, setPhone] = useState<number>(0);
+    const [internet, setInternet] = useState<number>(0);
+    const [subscriptions, setSubscriptions] = useState<number>(0);
+    const [insurance, setInsurance] = useState<number>(0);
+    const [childCare, setChildCare] = useState<number>(0);
 
 
 

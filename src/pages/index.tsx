@@ -5,6 +5,8 @@ import BudgetSetup from '@/src/components/BudgetSetup';
 import UserData from '@/src/types/UserData';
 import BudgetOverview from '@/src/components/BudgetOverview';
 import Navbar from '@/src/components/Navbar';
+import MainWithBudget from '../containers/MainWithBudget';
+import MainWithoutBudget from '../containers/MainWithoutBudget';
 
 export default function BasePage() {
     const { user, error, isLoading } = useUser();
@@ -31,8 +33,7 @@ export default function BasePage() {
     if (userData && userData.budget) {
         return (
             <div>
-                <Navbar userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
-                <BudgetOverview userData={userData} setLoadingScreen={setLoadingScreen} />
+                <MainWithBudget userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
             </div>
         );
     }
@@ -42,8 +43,7 @@ export default function BasePage() {
 
         return (
             <div>
-                <Navbar userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
-                <BudgetSetup userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
+                <MainWithoutBudget userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
             </div>
         );
     }
