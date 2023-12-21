@@ -13,6 +13,11 @@ export default function BasePage() {
     const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData | null>(null);
 
+    const props = {
+        userData,
+        setUserData,
+        setLoadingScreen,
+    };
 
     // While loading user data, display loading screen
     if (loadingScreen) {
@@ -33,7 +38,7 @@ export default function BasePage() {
     if (userData && userData.budget) {
         return (
             <div>
-                <MainWithBudget userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
+                <MainWithBudget {...props} />
             </div>
         );
     }
@@ -43,7 +48,7 @@ export default function BasePage() {
 
         return (
             <div>
-                <MainWithoutBudget userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
+                <MainWithoutBudget {...props} />
             </div>
         );
     }
@@ -51,7 +56,7 @@ export default function BasePage() {
     // Default case (e.g., user is not logged in)
     return (
         <div>
-            <Navbar userData={userData} setUserData={setUserData} setLoadingScreen={setLoadingScreen} />
+            <Navbar {...props} />
         </div>
     );
 }
