@@ -3,6 +3,7 @@
 interface UserData {
     name?: string;
     budget?: any;
+    purchaseHistory?: any;
 }
 
 export default UserData;
