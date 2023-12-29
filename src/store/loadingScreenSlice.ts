@@ -10,7 +10,7 @@ const initialState: LoadingScreenState = {
 };
 
 const loadingScreenSlice = createSlice({
-    name: 'loadingState',
+    name: 'loadingScreen',
     initialState,
     reducers: {
         setLoadingScreen: (state, action: PayloadAction<boolean>) => {

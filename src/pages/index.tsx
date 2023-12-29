@@ -15,7 +15,7 @@ import { LoadingScreenState } from '@/src/store/loadingScreenSlice';
 export default function BasePage() {
     // Redux
     const userData = useSelector((state: any) => state.user.userData);
-    const loadingScreen = useSelector((state: { loadingState: LoadingScreenState }) => state.loadingState.loadingScreen);
+    const loadingScreen = useSelector((state: any) => state.loadingScreen.loadingScreen);
 
     const { user, error, isLoading } = useUser();
 

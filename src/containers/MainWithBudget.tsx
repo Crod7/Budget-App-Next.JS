@@ -3,18 +3,16 @@ import Navbar from "../components/Navbar";
 import UserData from "../types/UserData";
 
 
-interface Props {
-    setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 
-const MainWithBudget: React.FC<Props> = ({ setLoadingScreen }) => {
+
+const MainWithBudget: React.FC = () => {
 
 
     return (
         <div>
-            <Navbar setLoadingScreen={setLoadingScreen} />
-            <BudgetOverview setLoadingScreen={setLoadingScreen} />
+            <Navbar />
+            <BudgetOverview />
         </div>
     )
 
