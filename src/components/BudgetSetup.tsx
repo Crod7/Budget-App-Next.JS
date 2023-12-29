@@ -101,7 +101,7 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ userData, setUserData, setLoa
 
     if (userData) {
         return (
-            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[400px] max-w-[700px] mx-auto`} >
+            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`} >
                 <div className='text-2xl font-bold'>Welcome {userData.name}!</div>
                 <div className='text-lg font-bold'>Lets create your budget.</div>
 

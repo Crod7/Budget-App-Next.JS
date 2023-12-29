@@ -34,6 +34,9 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
             : 0
     );
 
+    // We generate a dateId when the page loads to avoid having a specific issue when a user attempts to make a purchase seconds before the begining of the next month(11:59pm).
+    // This way the ID will remain consistent for the purchase being added.
+    const dateId = generateDateId();
 
     const handleAddPurchase = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,7 +53,8 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
 
         // The purchase gets recorded in the user's purchase history
         const purchaseData = {
-            purchaseAmount
+            purchaseAmount: purchaseAmount,
+            purchaseDate: dateId
         };
         const updatedUser = {
             ...userData,
@@ -62,7 +66,6 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
             console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
         }
         setLoadingScreen(false)
-        // Reset purchaseAmount
         setPurchaseAmount(0);
 
     };
@@ -71,11 +74,10 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
     if (userData) {
         return (
             <div>
-                <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[400px] max-w-[700px] mx-auto`} >
+                <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`} >
                     {currentTotal}
                 </div>
                 <div>
-                    {generateDateId()}
                     Add a purchase:
                     <form onSubmit={handleAddPurchase}>
                         <input
