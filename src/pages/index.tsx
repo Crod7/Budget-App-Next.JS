@@ -23,6 +23,8 @@ export default function BasePage() {
         setLoadingScreen,
     };
 
+
+
     // While loading user data, display loading screen
     if (loadingScreen) {
         return (

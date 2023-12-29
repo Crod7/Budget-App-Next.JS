@@ -51,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ setLoadingScreen }) => {
       if (userExists === 'userNotFound') { // If the user dosen't exists we create one
         await PostUser(user);
         const newUser = await GetUser(user.email)
-        setUserData(newUser)
+        dispatch(setUserData(newUser));
       }
       if (userExists === 'userFound') { // If user does exists, we load data to userData
         getUserData();
