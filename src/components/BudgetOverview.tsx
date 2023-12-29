@@ -5,14 +5,13 @@ import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 import { generateDateId } from '@/lib/functions/GenerateDateId';
 //Redux Imports
 import { setUserData } from '@/src/store/userSlice';
+import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-interface BudgetOverviewProps {
-    setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const BudgetOverview: React.FC<BudgetOverviewProps> = ({ setLoadingScreen }) => {
+
+const BudgetOverview: React.FC = () => {
 
     // Redux
     const dispatch = useDispatch();
@@ -45,7 +44,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ setLoadingScreen }) => 
 
     const handleAddPurchase = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoadingScreen(true)
+        dispatch(setLoadingScreen(true))
 
         // Ensure purchaseAmount is a valid integer
         const purchaseValue = parseInt(purchaseAmount.toString(), 10); if (isNaN(purchaseValue)) {
@@ -71,8 +70,8 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ setLoadingScreen }) => 
         } catch (error) {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
         }
-        setLoadingScreen(false)
         setPurchaseAmount(0);
+        dispatch(setLoadingScreen(false))
 
     };
 

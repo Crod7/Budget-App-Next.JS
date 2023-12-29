@@ -3,13 +3,11 @@ import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 //Redux Imports
 import { setUserData } from '@/src/store/userSlice';
+import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-interface BudgetSetupProps {
-    setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const BudgetSetup: React.FC<BudgetSetupProps> = ({ setLoadingScreen }) => {
+const BudgetSetup: React.FC = () => {
     // Redux
     const dispatch = useDispatch();
     const userData = useSelector((state: any) => state.user.userData);
@@ -73,7 +71,7 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ setLoadingScreen }) => {
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
 
-        setLoadingScreen(true)
+        dispatch(setLoadingScreen(true))
 
         event.preventDefault();
         const budgetData = {
@@ -98,7 +96,7 @@ const BudgetSetup: React.FC<BudgetSetupProps> = ({ setLoadingScreen }) => {
         } catch (error) {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken.", error)
         }
-        setLoadingScreen(false)
+        dispatch(setLoadingScreen(false))
     };
 
 

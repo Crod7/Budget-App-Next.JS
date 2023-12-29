@@ -10,18 +10,14 @@ import MainWithoutBudget from '../containers/MainWithoutBudget';
 //Redux Imports
 import { setUserData } from '@/src/store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { LoadingScreenState } from '@/src/store/loadingScreenSlice';
 
 export default function BasePage() {
     // Redux
     const userData = useSelector((state: any) => state.user.userData);
+    const loadingScreen = useSelector((state: { loadingState: LoadingScreenState }) => state.loadingState.loadingScreen);
 
     const { user, error, isLoading } = useUser();
-    const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
-
-
-    const props = {
-        setLoadingScreen,
-    };
 
 
 
@@ -44,7 +40,7 @@ export default function BasePage() {
     if (userData && userData.budget) {
         return (
             <div>
-                <MainWithBudget {...props} />
+                <MainWithBudget />
             </div>
         );
     }
@@ -54,7 +50,7 @@ export default function BasePage() {
 
         return (
             <div>
-                <MainWithoutBudget {...props} />
+                <MainWithoutBudget />
             </div>
         );
     }
@@ -62,7 +58,7 @@ export default function BasePage() {
     // Default case (e.g., user is not logged in)
     return (
         <div>
-            <Navbar {...props} />
+            <Navbar />
         </div>
     );
 }

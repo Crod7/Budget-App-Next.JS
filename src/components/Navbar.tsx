@@ -6,15 +6,14 @@ import PostUser from '@/lib/database/apiFunctions/PostUser';
 import CheckUser from '@/lib/database/apiFunctions/CheckUser';
 import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode';
 import GetUser from '@/lib/database/apiFunctions/GetUser';
-import { useDispatch, useSelector } from 'react-redux';
+// Redux Imports
 import { setUserData } from '@/src/store/userSlice';
+import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-interface NavbarProps {
-  setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ setLoadingScreen }) => {
+const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
 
@@ -24,11 +23,11 @@ const Navbar: React.FC<NavbarProps> = ({ setLoadingScreen }) => {
 
   // Handles login / logout functionality
   const handleLoginClick = () => {
-    setLoadingScreen(true)
+    dispatch(setLoadingScreen(true))
     window.location.href = '/api/auth/login';
   }
   const handleLogoutClick = () => {
-    setLoadingScreen(true)
+    dispatch(setLoadingScreen(true))
     window.location.href = '/api/auth/logout';
   }
 
