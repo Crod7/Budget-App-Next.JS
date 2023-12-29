@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 import UserData from '@/src/types/UserData';
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
+import { generateDateId } from '@/lib/functions/GenerateDateId'
 
 
 interface BudgetOverviewProps {
@@ -74,6 +75,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
                     {currentTotal}
                 </div>
                 <div>
+                    {generateDateId()}
                     Add a purchase:
                     <form onSubmit={handleAddPurchase}>
                         <input
