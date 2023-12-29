@@ -73,8 +73,8 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
 
     if (userData) {
         return (
-            <div>
-                <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`} >
+            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`}>
+                <div  >
                     {currentTotal}
                 </div>
                 <div>
