@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
-import UserData from '@/src/types/UserData';
+
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
-import { generateDateId } from '@/lib/functions/GenerateDateId'
+import { generateDateId } from '@/lib/functions/GenerateDateId';
+//Redux Imports
+import { setUserData } from '@/src/store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 interface BudgetOverviewProps {
-    userData: UserData | null;
     setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScreen }) => {
+const BudgetOverview: React.FC<BudgetOverviewProps> = ({ setLoadingScreen }) => {
 
-
+    // Redux
+    const dispatch = useDispatch();
+    const userData = useSelector((state: any) => state.user.userData);
+    // Color Mode
     const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
@@ -62,6 +67,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userData, setLoadingScr
         };
         try {
             await UpdatedUser(updatedUser)
+            dispatch(setUserData(updatedUser));
         } catch (error) {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
         }

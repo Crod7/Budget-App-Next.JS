@@ -7,15 +7,19 @@ import BudgetOverview from '@/src/components/BudgetOverview';
 import Navbar from '@/src/components/Navbar';
 import MainWithBudget from '../containers/MainWithBudget';
 import MainWithoutBudget from '../containers/MainWithoutBudget';
+//Redux Imports
+import { setUserData } from '@/src/store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function BasePage() {
+    // Redux
+    const userData = useSelector((state: any) => state.user.userData);
+
     const { user, error, isLoading } = useUser();
     const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
-    const [userData, setUserData] = useState<UserData | null>(null);
+
 
     const props = {
-        userData,
-        setUserData,
         setLoadingScreen,
     };
 

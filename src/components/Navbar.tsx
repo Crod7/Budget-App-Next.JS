@@ -5,18 +5,17 @@ import { useColorMode } from '@chakra-ui/react';
 import PostUser from '@/lib/database/apiFunctions/PostUser';
 import CheckUser from '@/lib/database/apiFunctions/CheckUser';
 import ToggleColorMode from '../components/Utility/ToggleColorMode/ToggleColorMode';
-import UserData from '@/src/types/UserData';
 import GetUser from '@/lib/database/apiFunctions/GetUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from '@/src/store/userSlice';
 
 
 interface NavbarProps {
-  userData: UserData | null;
-  setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
   setLoadingScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ setUserData, setLoadingScreen }) => {
-
+const Navbar: React.FC<NavbarProps> = ({ setLoadingScreen }) => {
+  const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
 
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
@@ -38,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ setUserData, setLoadingScreen }) => {
     if (user) {
       try {
         const data = await GetUser(user.email);
-        setUserData(data)
+        dispatch(setUserData(data));
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
