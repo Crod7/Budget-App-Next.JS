@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const BudgetOverview: React.FC = () => {
 
+    let purchaseTotal = 0;
+
     // Redux
     const dispatch = useDispatch();
     const userData = useSelector((state: any) => state.user.userData);
@@ -34,9 +36,19 @@ const BudgetOverview: React.FC = () => {
             userData.budget.subscriptions -
             userData.budget.insurance -
             userData.budget.childCare -
-            userData.budget.internet
+            userData.budget.internet -
+            (userData.purchaseHistory?.filter((purchase: { purchaseDate: number; }) => purchase.purchaseDate === generateDateId())?.reduce((total: any, purchase: { purchaseAmount: any; }) => total + purchase.purchaseAmount, 0) || 0)
             : 0
     );
+
+    // calculate user's remaining balance after calculating purchaseHistory
+    if (userData.purchaseHistory) {
+        for (let purchase of userData.purchaseHistory) {
+            purchaseTotal += purchase.purchaseAmount
+            console.log(purchaseTotal)
+        }
+    }
+
 
     // We generate a dateId when the page loads to avoid having a specific issue when a user attempts to make a purchase seconds before the begining of the next month(11:59pm).
     // This way the ID will remain consistent for the purchase being added.
@@ -93,6 +105,21 @@ const BudgetOverview: React.FC = () => {
                         <button type="submit">Add Purchase</button>
                     </form>
                 </div>
+                {/* This displays user purchases for the current month */}
+                {userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
+                    <div>
+                        <h2>Purchase History:</h2>
+                        <ul>
+                            {userData.purchaseHistory.map((purchase: any, index: number) => (
+                                purchase.purchaseDate === generateDateId() && (
+                                    <li key={`${purchase.purchaseDate}_${index}`}>
+                                        Purchase Amount: {purchase.purchaseAmount}
+                                    </li>
+                                )
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
         );
     }
