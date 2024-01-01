@@ -24,6 +24,10 @@ const BudgetOverview: React.FC = () => {
 
     // calculates user's budget from monthly expenses
     const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
+    const [purchaseName, setPurchaseName] = useState<string>('');
+    const [purchaseCategory, setPurchaseCategory] = useState<string>('');
+
+
     const [currentTotal, setCurrentTotal] = useState<number>(
         userData
             ? userData.budget.income -
@@ -45,7 +49,6 @@ const BudgetOverview: React.FC = () => {
     if (userData.purchaseHistory) {
         for (let purchase of userData.purchaseHistory) {
             purchaseTotal += purchase.purchaseAmount
-            console.log(purchaseTotal)
         }
     }
 
@@ -70,7 +73,9 @@ const BudgetOverview: React.FC = () => {
         // The purchase gets recorded in the user's purchase history
         const purchaseData = {
             purchaseAmount: purchaseAmount,
-            purchaseDate: dateId
+            purchaseDate: dateId,
+            purchaseName: purchaseName,
+            purchaseCategory: purchaseCategory
         };
         const updatedUser = {
             ...userData,
@@ -83,7 +88,9 @@ const BudgetOverview: React.FC = () => {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
         }
         setPurchaseAmount(0);
-        dispatch(setLoadingScreen(false))
+        setPurchaseName('');
+        setPurchaseCategory('');
+        dispatch(setLoadingScreen(false));
 
     };
 
@@ -94,15 +101,40 @@ const BudgetOverview: React.FC = () => {
                 <div  >
                     {currentTotal}
                 </div>
-                <div>
-                    Add a purchase:
+                <div className='py-10'>
+                    <div className='text-2xl font-extrabold'>
+                        Add a purchase:
+
+                    </div>
                     <form onSubmit={handleAddPurchase}>
-                        <input
-                            type="number"
-                            value={purchaseAmount}
-                            onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
-                        />
-                        <button type="submit">Add Purchase</button>
+                        <div className="flex justify-between">
+                            <div className='py-4 font-bold'>
+                                Amount($):
+                                <input
+                                    type="number"
+                                    className='p-2 rounded-2xl shadow-xl border'
+                                    value={purchaseAmount}
+                                    onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
+                                />
+                            </div>
+                            <div className='py-4 font-bold'>
+                                Item name:
+                                <input
+                                    type="text"
+                                    className='p-2 rounded-2xl shadow-xl border'
+                                    value={purchaseName}
+                                    onChange={(e) => setPurchaseName(e.target.value)} />
+                            </div>
+                            <div className='py-4 font-bold'>
+                                Category:
+                                <input
+                                    type="text"
+                                    className='p-2 rounded-2xl shadow-xl border'
+                                    value={purchaseCategory}
+                                    onChange={(e) => setPurchaseCategory(e.target.value)} />
+                            </div>
+                        </div>
+                        <button type="submit" className='font-extrabold bg-green-600 p-4 rounded-2xl'>Add Purchase</button>
                     </form>
                 </div>
                 {/* This displays user purchases for the current month */}
@@ -110,13 +142,14 @@ const BudgetOverview: React.FC = () => {
                     <div>
                         <h2>Purchase History:</h2>
                         <ul>
-                            {userData.purchaseHistory.map((purchase: any, index: number) => (
-                                purchase.purchaseDate === generateDateId() && (
+                            {userData.purchaseHistory
+                                .filter((purchase: any) => purchase.purchaseDate === generateDateId())
+                                .reverse() // Reverse the order of the array
+                                .map((purchase: any, index: number) => (
                                     <li key={`${purchase.purchaseDate}_${index}`}>
                                         Purchase Amount: {purchase.purchaseAmount}
                                     </li>
-                                )
-                            ))}
+                                ))}
                         </ul>
                     </div>
                 )}
