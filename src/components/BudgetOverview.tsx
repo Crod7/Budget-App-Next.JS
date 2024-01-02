@@ -97,7 +97,7 @@ const BudgetOverview: React.FC = () => {
 
     if (userData) {
         return (
-            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`}>
+            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
                 <div  >
                     {currentTotal}
                 </div>
@@ -141,13 +141,23 @@ const BudgetOverview: React.FC = () => {
                 {userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
                     <div>
                         <h2>Purchase History:</h2>
-                        <ul>
+                        <ul >
                             {userData.purchaseHistory
                                 .filter((purchase: any) => purchase.purchaseDate === generateDateId())
                                 .reverse() // Reverse the order of the array
                                 .map((purchase: any, index: number) => (
                                     <li key={`${purchase.purchaseDate}_${index}`}>
-                                        Purchase Amount: {purchase.purchaseAmount}
+                                        <div className="border-2 p-4 flex flex-col sm:flex-row shadow-md rounded-2xl w-full my-4 justify-between">
+                                            <div className='mb-2 sm:mb-0 sm:mr-2'>
+                                                <div className='font-extrabold'>Name: </div>{purchase.purchaseName}
+                                            </div>
+                                            <div className='mb-2 sm:mb-0 sm:mr-2'>
+                                                <div className='font-extrabold'>Purchase Amount: </div>{purchase.purchaseAmount}
+                                            </div>
+                                            <div>
+                                                <div className='font-extrabold'>Category: </div>{purchase.purchaseCategory}
+                                            </div>
+                                        </div>
                                     </li>
                                 ))}
                         </ul>
