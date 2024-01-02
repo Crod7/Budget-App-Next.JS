@@ -97,7 +97,7 @@ const BudgetOverview: React.FC = () => {
 
     if (userData) {
         return (
-            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`}>
+            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
                 <div  >
                     {currentTotal}
                 </div>
@@ -141,13 +141,23 @@ const BudgetOverview: React.FC = () => {
                 {userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
                     <div>
                         <h2>Purchase History:</h2>
-                        <ul>
+                        <ul >
                             {userData.purchaseHistory
                                 .filter((purchase: any) => purchase.purchaseDate === generateDateId())
                                 .reverse() // Reverse the order of the array
                                 .map((purchase: any, index: number) => (
                                     <li key={`${purchase.purchaseDate}_${index}`}>
-                                        Purchase Amount: {purchase.purchaseAmount}
+                                        <div className="border-2 p-4 flex-wrap shadow-md rounded-2xl my-4">
+                                            <div>
+                                                Name: {purchase.purchaseName}
+                                            </div>
+                                            <div>
+                                                Purchase Amount: {purchase.purchaseAmount}
+                                            </div>
+                                            <div>
+                                                Category: {purchase.purchaseCategory}
+                                            </div>
+                                        </div>
                                     </li>
                                 ))}
                         </ul>
