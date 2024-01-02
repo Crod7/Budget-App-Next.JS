@@ -107,12 +107,12 @@ const BudgetOverview: React.FC = () => {
 
                     </div>
                     <form onSubmit={handleAddPurchase}>
-                        <div className="flex justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between">
                             <div className='py-4 font-bold'>
                                 Amount($):
                                 <input
                                     type="number"
-                                    className='p-2 rounded-2xl shadow-xl border'
+                                    className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0'
                                     value={purchaseAmount}
                                     onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
                                 />
@@ -121,7 +121,7 @@ const BudgetOverview: React.FC = () => {
                                 Item name:
                                 <input
                                     type="text"
-                                    className='p-2 rounded-2xl shadow-xl border'
+                                    className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0'
                                     value={purchaseName}
                                     onChange={(e) => setPurchaseName(e.target.value)} />
                             </div>
@@ -129,7 +129,7 @@ const BudgetOverview: React.FC = () => {
                                 Category:
                                 <input
                                     type="text"
-                                    className='p-2 rounded-2xl shadow-xl border'
+                                    className='p-2 rounded-2xl shadow-xl border ml-5 sm:ml-0'
                                     value={purchaseCategory}
                                     onChange={(e) => setPurchaseCategory(e.target.value)} />
                             </div>
