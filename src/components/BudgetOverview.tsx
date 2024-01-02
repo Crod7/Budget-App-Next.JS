@@ -107,12 +107,12 @@ const BudgetOverview: React.FC = () => {
 
                     </div>
                     <form onSubmit={handleAddPurchase}>
-                        <div className="flex flex-col sm:flex-row justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between w-[100%]">
                             <div className='py-4 font-bold'>
                                 Amount($):
                                 <input
                                     type="number"
-                                    className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0'
+                                    className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                     value={purchaseAmount}
                                     onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
                                 />
@@ -121,20 +121,29 @@ const BudgetOverview: React.FC = () => {
                                 Item name:
                                 <input
                                     type="text"
-                                    className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0'
+                                    className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                     value={purchaseName}
                                     onChange={(e) => setPurchaseName(e.target.value)} />
                             </div>
-                            <div className='py-4 font-bold'>
+                            <div className='py-4 font-bold '>
                                 Category:
                                 <input
                                     type="text"
-                                    className='p-2 rounded-2xl shadow-xl border ml-5 sm:ml-0'
+                                    className='p-2 rounded-2xl shadow-xl border ml-5 sm:ml-0 sm:w-[90%]'
                                     value={purchaseCategory}
                                     onChange={(e) => setPurchaseCategory(e.target.value)} />
                             </div>
                         </div>
-                        <button type="submit" className='font-extrabold bg-green-600 p-4 rounded-2xl'>Add Purchase</button>
+                        <div className='flex w-full gap-4'>
+                            <button type="submit" className='font-extrabold bg-green-500 p-4 min-w-[150px] rounded-2xl '>Add Purchase</button>
+                            <button type="button" onClick={() => {
+                                setPurchaseAmount(0);
+                                setPurchaseName('');
+                                setPurchaseCategory('');
+                            }} className='font-extrabold bg-red-500 p-4 min-w-[150px] rounded-2xl '>Clear</button>
+
+
+                        </div>
                     </form>
                 </div>
                 {/* This displays user purchases for the current month */}
