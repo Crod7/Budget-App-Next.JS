@@ -21,14 +21,7 @@ export default function BasePage() {
 
 
 
-    // While loading user data, display loading screen
-    if (loadingScreen) {
-        return (
-            <div>
-                <LoadingScreen />
-            </div>
-        );
-    }
+    // If loadingScreen state is true we activate it here.
 
 
     // If error occurs, display error
@@ -40,6 +33,9 @@ export default function BasePage() {
     if (userData && userData.budget) {
         return (
             <div>
+                {loadingScreen && (
+                    <LoadingScreen />
+                )}
                 <MainWithBudget />
             </div>
         );
@@ -50,6 +46,9 @@ export default function BasePage() {
 
         return (
             <div>
+                {loadingScreen && (
+                    <LoadingScreen />
+                )}
                 <MainWithoutBudget />
             </div>
         );
@@ -58,6 +57,9 @@ export default function BasePage() {
     // Default case (e.g., user is not logged in)
     return (
         <div>
+            {loadingScreen && (
+                <LoadingScreen />
+            )}
             <Navbar />
         </div>
     );
