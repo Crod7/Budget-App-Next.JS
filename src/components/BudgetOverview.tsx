@@ -23,7 +23,7 @@ const BudgetOverview: React.FC = () => {
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     // calculates user's budget from monthly expenses
-    const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
+    const [purchaseAmount, setPurchaseAmount] = useState<number | undefined>(undefined);
     const [purchaseName, setPurchaseName] = useState<string>('');
     const [purchaseCategory, setPurchaseCategory] = useState<string>('');
 
@@ -98,8 +98,8 @@ const BudgetOverview: React.FC = () => {
     if (userData) {
         return (
             <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
-                <div  >
-                    {currentTotal}
+                <div className='text-5xl font-extrabold text-green-500 text-center'>
+                    ${currentTotal}
                 </div>
                 <div className='py-10 flex'>
                     <div className='mx-auto'>
@@ -110,27 +110,27 @@ const BudgetOverview: React.FC = () => {
                         <form onSubmit={handleAddPurchase}>
                             <div className="flex flex-col sm:flex-row justify-between w-[100%]">
                                 <div className='py-4 font-bold'>
-                                    Amount($):
                                     <input
                                         type="number"
+                                        placeholder='Amount($)'
                                         className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseAmount}
                                         onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
                                     />
                                 </div>
                                 <div className='py-4 font-bold'>
-                                    Item name:
                                     <input
                                         type="text"
+                                        placeholder='Purchase Name'
                                         className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseName}
                                         onChange={(e) => setPurchaseName(e.target.value)} />
                                 </div>
                                 <div className='py-4 font-bold '>
-                                    Category:
                                     <input
                                         type="text"
-                                        className='p-2 rounded-2xl shadow-xl border ml-5 sm:ml-0 sm:w-[90%]'
+                                        placeholder='Category'
+                                        className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseCategory}
                                         onChange={(e) => setPurchaseCategory(e.target.value)} />
                                 </div>
