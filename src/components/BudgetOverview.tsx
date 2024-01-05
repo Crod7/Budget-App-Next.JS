@@ -62,47 +62,53 @@ const BudgetOverview: React.FC = () => {
         dispatch(setLoadingScreen(true))
 
         // Ensure purchaseAmount is a valid integer
-        const purchaseValue = parseInt(purchaseAmount.toString(), 10); if (isNaN(purchaseValue)) {
-            alert('Please enter a valid integer for the purchase amount.');
-            return;
-        }
+        if (purchaseAmount && purchaseName && purchaseCategory) {
+            const purchaseValue = parseInt(purchaseAmount.toString(), 10);
+            if (isNaN(purchaseValue)) {
+                alert('Please enter a valid integer for the purchase amount.');
+                return;
+            }
 
-        // Update currentTotal by subtracting the purchaseAmount
-        setCurrentTotal((prevTotal) => prevTotal - purchaseValue);
 
-        // The purchase gets recorded in the user's purchase history
-        const purchaseData = {
-            purchaseAmount: purchaseAmount,
-            purchaseDate: dateId,
-            purchaseName: purchaseName,
-            purchaseCategory: purchaseCategory
-        };
-        const updatedUser = {
-            ...userData,
-            purchaseHistory: [...(userData?.purchaseHistory || []), purchaseData],
-        };
-        try {
-            await UpdatedUser(updatedUser)
-            dispatch(setUserData(updatedUser));
-        } catch (error) {
-            console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
+
+            // Update currentTotal by subtracting the purchaseAmount
+            setCurrentTotal((prevTotal) => prevTotal - purchaseValue);
+
+            // The purchase gets recorded in the user's purchase history
+            const purchaseData = {
+                purchaseAmount: purchaseAmount,
+                purchaseDate: dateId,
+                purchaseName: purchaseName,
+                purchaseCategory: purchaseCategory
+            };
+            const updatedUser = {
+                ...userData,
+                purchaseHistory: [...(userData?.purchaseHistory || []), purchaseData],
+            };
+            try {
+                await UpdatedUser(updatedUser)
+                dispatch(setUserData(updatedUser));
+            } catch (error) {
+                console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
+            }
+            setPurchaseAmount(0);
+            setPurchaseName('');
+            setPurchaseCategory('');
+        } else {
+            alert('Please fill in all fields.');
         }
-        setPurchaseAmount(0);
-        setPurchaseName('');
-        setPurchaseCategory('');
         dispatch(setLoadingScreen(false));
-
     };
 
 
     if (userData) {
         return (
             <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
-                <div  >
-                    {currentTotal}
+                <div className='text-5xl font-extrabold text-green-500 text-center'>
+                    ${currentTotal}
                 </div>
                 <div className='py-10 flex'>
-                    <div className='mx-auto'>
+                    <div className=' w-full'>
                         <div className='text-2xl font-extrabold'>
                             Add a purchase:
 
@@ -110,27 +116,27 @@ const BudgetOverview: React.FC = () => {
                         <form onSubmit={handleAddPurchase}>
                             <div className="flex flex-col sm:flex-row justify-between w-[100%]">
                                 <div className='py-4 font-bold'>
-                                    Amount($):
                                     <input
                                         type="number"
+                                        placeholder='Amount($)'
                                         className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseAmount}
                                         onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
                                     />
                                 </div>
                                 <div className='py-4 font-bold'>
-                                    Item name:
                                     <input
                                         type="text"
+                                        placeholder='Purchase Name'
                                         className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseName}
                                         onChange={(e) => setPurchaseName(e.target.value)} />
                                 </div>
                                 <div className='py-4 font-bold '>
-                                    Category:
                                     <input
                                         type="text"
-                                        className='p-2 rounded-2xl shadow-xl border ml-5 sm:ml-0 sm:w-[90%]'
+                                        placeholder='Category'
+                                        className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseCategory}
                                         onChange={(e) => setPurchaseCategory(e.target.value)} />
                                 </div>
@@ -152,7 +158,7 @@ const BudgetOverview: React.FC = () => {
                 {/* This displays user purchases for the current month */}
                 {userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
                     <div>
-                        <h2>Purchase History:</h2>
+                        <h2 className='font-extrabold text-3xl'>Purchase History:</h2>
                         <ul >
                             {userData.purchaseHistory
                                 .filter((purchase: any) => purchase.purchaseDate === generateDateId())
