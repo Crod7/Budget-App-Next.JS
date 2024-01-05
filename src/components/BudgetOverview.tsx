@@ -23,7 +23,7 @@ const BudgetOverview: React.FC = () => {
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     // calculates user's budget from monthly expenses
-    const [purchaseAmount, setPurchaseAmount] = useState<number | undefined>(undefined);
+    const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
     const [purchaseName, setPurchaseName] = useState<string>('');
     const [purchaseCategory, setPurchaseCategory] = useState<string>('');
 
@@ -62,36 +62,42 @@ const BudgetOverview: React.FC = () => {
         dispatch(setLoadingScreen(true))
 
         // Ensure purchaseAmount is a valid integer
-        const purchaseValue = parseInt(purchaseAmount.toString(), 10); if (isNaN(purchaseValue)) {
-            alert('Please enter a valid integer for the purchase amount.');
-            return;
-        }
+        if (purchaseAmount && purchaseName && purchaseCategory) {
+            const purchaseValue = parseInt(purchaseAmount.toString(), 10);
+            if (isNaN(purchaseValue)) {
+                alert('Please enter a valid integer for the purchase amount.');
+                return;
+            }
 
-        // Update currentTotal by subtracting the purchaseAmount
-        setCurrentTotal((prevTotal) => prevTotal - purchaseValue);
 
-        // The purchase gets recorded in the user's purchase history
-        const purchaseData = {
-            purchaseAmount: purchaseAmount,
-            purchaseDate: dateId,
-            purchaseName: purchaseName,
-            purchaseCategory: purchaseCategory
-        };
-        const updatedUser = {
-            ...userData,
-            purchaseHistory: [...(userData?.purchaseHistory || []), purchaseData],
-        };
-        try {
-            await UpdatedUser(updatedUser)
-            dispatch(setUserData(updatedUser));
-        } catch (error) {
-            console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
+
+            // Update currentTotal by subtracting the purchaseAmount
+            setCurrentTotal((prevTotal) => prevTotal - purchaseValue);
+
+            // The purchase gets recorded in the user's purchase history
+            const purchaseData = {
+                purchaseAmount: purchaseAmount,
+                purchaseDate: dateId,
+                purchaseName: purchaseName,
+                purchaseCategory: purchaseCategory
+            };
+            const updatedUser = {
+                ...userData,
+                purchaseHistory: [...(userData?.purchaseHistory || []), purchaseData],
+            };
+            try {
+                await UpdatedUser(updatedUser)
+                dispatch(setUserData(updatedUser));
+            } catch (error) {
+                console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
+            }
+            setPurchaseAmount(0);
+            setPurchaseName('');
+            setPurchaseCategory('');
+        } else {
+            alert('Please fill in all fields.');
         }
-        setPurchaseAmount(0);
-        setPurchaseName('');
-        setPurchaseCategory('');
         dispatch(setLoadingScreen(false));
-
     };
 
 
@@ -102,7 +108,7 @@ const BudgetOverview: React.FC = () => {
                     ${currentTotal}
                 </div>
                 <div className='py-10 flex'>
-                    <div className='mx-auto'>
+                    <div className=' w-full'>
                         <div className='text-2xl font-extrabold'>
                             Add a purchase:
 
@@ -152,7 +158,7 @@ const BudgetOverview: React.FC = () => {
                 {/* This displays user purchases for the current month */}
                 {userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
                     <div>
-                        <h2>Purchase History:</h2>
+                        <h2 className='font-extrabold text-3xl'>Purchase History:</h2>
                         <ul >
                             {userData.purchaseHistory
                                 .filter((purchase: any) => purchase.purchaseDate === generateDateId())
