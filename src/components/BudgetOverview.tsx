@@ -57,6 +57,9 @@ const BudgetOverview: React.FC = () => {
     // This way the ID will remain consistent for the purchase being added.
     const dateId = generateDateId();
 
+    // We grab the users timezone to use later.
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     const handleAddPurchase = async (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(setLoadingScreen(true))
@@ -79,7 +82,8 @@ const BudgetOverview: React.FC = () => {
                 purchaseAmount: purchaseAmount,
                 purchaseDate: dateId,
                 purchaseName: purchaseName,
-                purchaseCategory: purchaseCategory
+                purchaseCategory: purchaseCategory,
+                purchaseDateTime: new Date().toLocaleString("en-US", { timeZone: userTimeZone }),
             };
             const updatedUser = {
                 ...userData,
@@ -168,6 +172,8 @@ const BudgetOverview: React.FC = () => {
                                         <div className="border-2 p-4 flex flex-col sm:flex-row shadow-md rounded-2xl w-full my-4 justify-between">
                                             <div className='mb-2 sm:mb-0 sm:mr-2'>
                                                 <div className='font-extrabold'>Name: </div>{purchase.purchaseName}
+                                                <div className='text-gray-500 font-extralight'>{(purchase && purchase.purchaseDateTime) ? purchase.purchaseDateTime : 'Date not available'}</div>
+
                                             </div>
                                             <div className='mb-2 sm:mb-0 sm:mr-2'>
                                                 <div className='font-extrabold'>Purchase Amount: </div>{purchase.purchaseAmount}
