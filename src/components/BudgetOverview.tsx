@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
@@ -46,6 +46,11 @@ const BudgetOverview: React.FC = () => {
             )?.reduce((total: any, purchase: { purchaseAmount: any }) => total + parseFloat(purchase.purchaseAmount), 0) || 0)
             : 0
     );
+    // Convert to string and back to number with two decimal places... avoids floating point precision bug
+    useEffect(() => {
+        const roundedTotal = parseFloat(currentTotal.toFixed(2));
+        setCurrentTotal(roundedTotal);
+    }, [currentTotal]);
 
     // calculate user's remaining balance after calculating purchaseHistory
     if (userData.purchaseHistory) {
