@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
@@ -23,27 +23,34 @@ const BudgetOverview: React.FC = () => {
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     // calculates user's budget from monthly expenses
-    const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
+    const [purchaseAmount, setPurchaseAmount] = useState<string>('');
     const [purchaseName, setPurchaseName] = useState<string>('');
     const [purchaseCategory, setPurchaseCategory] = useState<string>('');
 
 
     const [currentTotal, setCurrentTotal] = useState<number>(
         userData
-            ? userData.budget.income -
-            userData.budget.housing -
-            userData.budget.utilities -
-            userData.budget.debt -
-            userData.budget.car -
-            userData.budget.phone -
-            userData.budget.internet -
-            userData.budget.subscriptions -
-            userData.budget.insurance -
-            userData.budget.childCare -
-            userData.budget.internet -
-            (userData.purchaseHistory?.filter((purchase: { purchaseDate: number; }) => purchase.purchaseDate === generateDateId())?.reduce((total: any, purchase: { purchaseAmount: any; }) => total + purchase.purchaseAmount, 0) || 0)
+            ? parseFloat(userData.budget.income) -
+            parseFloat(userData.budget.housing) -
+            parseFloat(userData.budget.utilities) -
+            parseFloat(userData.budget.debt) -
+            parseFloat(userData.budget.car) -
+            parseFloat(userData.budget.phone) -
+            parseFloat(userData.budget.subscriptions) -
+            parseFloat(userData.budget.insurance) -
+            parseFloat(userData.budget.childCare) -
+            parseFloat(userData.budget.internet) -
+            (userData.purchaseHistory?.filter(
+                (purchase: { purchaseDate: number }) =>
+                    purchase.purchaseDate === generateDateId()
+            )?.reduce((total: any, purchase: { purchaseAmount: any }) => total + parseFloat(purchase.purchaseAmount), 0) || 0)
             : 0
     );
+    // Convert to string and back to number with two decimal places... avoids floating point precision bug
+    useEffect(() => {
+        const roundedTotal = parseFloat(currentTotal.toFixed(2));
+        setCurrentTotal(roundedTotal);
+    }, [currentTotal]);
 
     // calculate user's remaining balance after calculating purchaseHistory
     if (userData.purchaseHistory) {
@@ -66,9 +73,10 @@ const BudgetOverview: React.FC = () => {
 
         // Ensure purchaseAmount is a valid integer
         if (purchaseAmount && purchaseName && purchaseCategory) {
-            const purchaseValue = parseInt(purchaseAmount.toString(), 10);
-            if (isNaN(purchaseValue)) {
-                alert('Please enter a valid integer for the purchase amount.');
+            const purchaseValue = parseFloat(purchaseAmount);
+            if (isNaN(purchaseValue) || purchaseValue < 0 || !/^\d+(\.\d{1,2})?$/.test(purchaseAmount)) {
+                alert('Please enter a valid amount with up to two decimal places.');
+                dispatch(setLoadingScreen(false))
                 return;
             }
 
@@ -95,7 +103,7 @@ const BudgetOverview: React.FC = () => {
             } catch (error) {
                 console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
             }
-            setPurchaseAmount(0);
+            setPurchaseAmount('');
             setPurchaseName('');
             setPurchaseCategory('');
         } else {
@@ -121,12 +129,13 @@ const BudgetOverview: React.FC = () => {
                             <div className="flex flex-col sm:flex-row justify-between w-[100%]">
                                 <div className='py-4 font-bold'>
                                     <input
-                                        type="number"
+                                        type="text"
                                         placeholder='Amount($)'
                                         className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseAmount}
-                                        onChange={(e) => setPurchaseAmount(parseInt(e.target.value, 10) || 0)}
+                                        onChange={(e) => setPurchaseAmount(e.target.value)}
                                     />
+
                                 </div>
                                 <div className='py-4 font-bold'>
                                     <input
@@ -148,7 +157,7 @@ const BudgetOverview: React.FC = () => {
                             <div className='flex w-full gap-4'>
                                 <button type="submit" className='font-extrabold bg-green-500 p-4 min-w-[150px] rounded-2xl '>Add Purchase</button>
                                 <button type="button" onClick={() => {
-                                    setPurchaseAmount(0);
+                                    setPurchaseAmount('');
                                     setPurchaseName('');
                                     setPurchaseCategory('');
                                 }} className='font-extrabold bg-red-500 p-4 min-w-[150px] rounded-2xl '>Clear</button>
