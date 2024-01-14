@@ -178,18 +178,16 @@ const BudgetOverview: React.FC = () => {
                                 .reverse() // Reverse the order of the array
                                 .map((purchase: any, index: number) => (
                                     <li key={`${purchase.purchaseDate}_${index}`}>
-                                        <div className="border-2 p-4 flex flex-col sm:flex-row shadow-md rounded-2xl w-full my-4 justify-between">
+                                        <div className="border-2 p-4 flex sm:flex-row shadow-md rounded-2xl w-full my-4 justify-between px-10">
                                             <div className='mb-2 sm:mb-0 sm:mr-2'>
-                                                <div className='font-extrabold'>Name: </div>{purchase.purchaseName}
+                                                <div className='font-extrabold'>{purchase.purchaseName}</div>
                                                 <div className='text-gray-500 font-extralight'>{(purchase && purchase.purchaseDateTime) ? purchase.purchaseDateTime : 'Date not available'}</div>
 
                                             </div>
                                             <div className='mb-2 sm:mb-0 sm:mr-2'>
-                                                <div className='font-extrabold'>Purchase Amount: </div>{purchase.purchaseAmount}
+                                                <div className='font-extrabold text-green-500 text-xl'>${purchase.purchaseAmount} </div>
                                             </div>
-                                            <div>
-                                                <div className='font-extrabold'>Category: </div>{purchase.purchaseCategory}
-                                            </div>
+
                                         </div>
                                     </li>
                                 ))}
