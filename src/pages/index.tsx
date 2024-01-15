@@ -18,10 +18,10 @@ export default function BasePage() {
                 <LoadingScreen />
             )}
             <Navbar />
-            {(userData && userData.budget) && (
+            {(page === 'main' && userData && userData.budget) && (
                 <MainWithBudget />
             )}
-            {(userData && !userData.budget) && (
+            {(page === 'main' && userData && !userData.budget) && (
                 <MainWithoutBudget />
             )}
         </div>

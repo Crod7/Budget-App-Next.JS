@@ -11,16 +11,22 @@ import { setUserData } from '@/src/store/userSlice';
 import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
 import { setPage } from '../store/pageSlice';
 import { useDispatch } from 'react-redux';
-
+//Redux Imports
+import { useSelector } from 'react-redux';
 
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
 
+  // Color Mode Imports
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
   const customColorModeClass = isDarkMode ? 'dark' : 'light'; // Determine the appropriate class
+
+  // Redux
+  const page = useSelector((state: any) => state.page.page)
+
 
   // Handles login / logout functionality
   const handleLoginClick = () => {
@@ -62,6 +68,12 @@ const Navbar: React.FC = () => {
     dispatch(setLoadingScreen(false))
   }
 
+  const handleBudgetClick = () => {
+    dispatch(setPage('budget'))
+  }
+  const handleOverviewClick = () => {
+    dispatch(setPage('main'))
+  }
   useEffect(() => {
     loginUser();
   }, [isLoading]);
@@ -75,22 +87,24 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`${customColorModeClass} p-2 h-12 flex justify-between items-center`}>
       <ul className="flex list-none m-0 p-0">
-        <li className="ml-6">
-          <Link href="/">Home</Link>
+        <li className='pl-0'>
+
+          <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
+            Budget
+          </button>
         </li>
         {user ? (
           <>
-            <li className="ml-6">
-              <Link href="/dashboard">Dashboard</Link>
-            </li>
-            <li className="ml-6">
-              <Link href="/profile">Profile</Link>
+            <li className="pl-3">
+              <button className={`${page === 'main' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleOverviewClick()}>
+                Overview
+              </button>
             </li>
           </>
         ) : (
           <div className="flex items-center">
             <li className="ml-6">
-              <button className="border-2 rounded-md px-2 py-1 font-bold" onClick={handleLoginClick}>
+              <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLoginClick}>
                 Login
               </button>
             </li>
@@ -106,7 +120,7 @@ const Navbar: React.FC = () => {
               className="w-10 h-10 rounded-full mr-2"
             />
           )}
-          <button className="border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
+          <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
             Logout
           </button>
         </div>
