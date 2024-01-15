@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
 
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 import { generateDateId } from '@/lib/functions/GenerateDateId';
+
 //Redux Imports
 import { setUserData } from '@/src/store/userSlice';
 import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
@@ -11,16 +11,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const BudgetOverview: React.FC = () => {
+const AddPurchase: React.FC = () => {
 
     let purchaseTotal = 0;
 
     // Redux
     const dispatch = useDispatch();
     const userData = useSelector((state: any) => state.user.userData);
-    // Color Mode
-    const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
-    const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     // Calculates user's budget from monthly expenses
     const [purchaseAmount, setPurchaseAmount] = useState<string>('');
@@ -115,7 +112,7 @@ const BudgetOverview: React.FC = () => {
 
     if (userData) {
         return (
-            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
+            <div >
                 <div className='text-5xl font-extrabold text-green-500 text-center'>
                     ${currentTotal}
                 </div>
@@ -175,4 +172,4 @@ const BudgetOverview: React.FC = () => {
 
 };
 
-export default BudgetOverview;
+export default AddPurchase;
