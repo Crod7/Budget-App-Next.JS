@@ -9,6 +9,7 @@ import GetUser from '@/lib/database/apiFunctions/GetUser';
 // Redux Imports
 import { setUserData } from '@/src/store/userSlice';
 import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
+import { setPage } from '../store/pageSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -33,6 +34,7 @@ const Navbar: React.FC = () => {
 
   // We grab userData from the database by searching for it with the user from useUser
   const getUserData = async () => {
+    dispatch(setLoadingScreen(true))
     if (user) {
       try {
         const data = await GetUser(user.email);
@@ -41,11 +43,12 @@ const Navbar: React.FC = () => {
         console.error('Error fetching user data:', error);
       }
     }
+    dispatch(setLoadingScreen(false))
   };
 
   const loginUser = async () => {
+    dispatch(setLoadingScreen(true))
     if (user) {
-
       const userExists = await CheckUser(user.email);
       if (userExists === 'userNotFound') { // If the user dosen't exists we create one
         await PostUser(user);
@@ -55,8 +58,8 @@ const Navbar: React.FC = () => {
       if (userExists === 'userFound') { // If user does exists, we load data to userData
         getUserData();
       }
-
     }
+    dispatch(setLoadingScreen(false))
   }
 
   useEffect(() => {
