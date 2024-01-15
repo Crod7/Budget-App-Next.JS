@@ -22,7 +22,7 @@ const BudgetOverview: React.FC = () => {
     const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
-    // calculates user's budget from monthly expenses
+    // Calculates user's budget from monthly expenses
     const [purchaseAmount, setPurchaseAmount] = useState<string>('');
     const [purchaseName, setPurchaseName] = useState<string>('');
     const [purchaseCategory, setPurchaseCategory] = useState<string>('');
@@ -168,32 +168,7 @@ const BudgetOverview: React.FC = () => {
                     </div>
 
                 </div>
-                {/* This displays user purchases for the current month */}
-                {userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
-                    <div>
-                        <h2 className='font-extrabold text-3xl'>Purchase History:</h2>
-                        <ul >
-                            {userData.purchaseHistory
-                                .filter((purchase: any) => purchase.purchaseDate === generateDateId())
-                                .reverse() // Reverse the order of the array
-                                .map((purchase: any, index: number) => (
-                                    <li key={`${purchase.purchaseDate}_${index}`}>
-                                        <div className="border-2 p-4 flex sm:flex-row shadow-md rounded-2xl w-full my-4 justify-between px-10">
-                                            <div className='mb-2 sm:mb-0 sm:mr-2'>
-                                                <div className='font-extrabold'>{purchase.purchaseName}</div>
-                                                <div className='text-gray-500 font-extralight'>{(purchase && purchase.purchaseDateTime) ? purchase.purchaseDateTime : 'Date not available'}</div>
 
-                                            </div>
-                                            <div className='mb-2 sm:mb-0 sm:mr-2'>
-                                                <div className='font-extrabold text-green-500 text-xl'>${purchase.purchaseAmount} </div>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                ))}
-                        </ul>
-                    </div>
-                )}
             </div>
         );
     }

@@ -1,6 +1,5 @@
 import BudgetOverview from "../components/BudgetOverview";
-import Navbar from "../components/Navbar";
-import UserData from "../types/UserData";
+import PurchaseHistory from "../components/PurchaseHistory";
 
 
 
@@ -12,6 +11,7 @@ const MainWithBudget: React.FC = () => {
     return (
         <div>
             <BudgetOverview />
+            <PurchaseHistory />
         </div>
     )
 
