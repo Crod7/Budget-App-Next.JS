@@ -24,6 +24,9 @@ export default function BasePage() {
             {(page === 'main' && userData && !userData.budget) && (
                 <MainWithoutBudget />
             )}
+            {(page === 'budget' && userData && userData.budget) && (
+                <MainWithoutBudget />
+            )}
         </div>
     );
 }

@@ -25,24 +25,45 @@ const AddPurchase: React.FC = () => {
     const [purchaseCategory, setPurchaseCategory] = useState<string>('');
 
 
-    const [currentTotal, setCurrentTotal] = useState<number>(
-        userData
-            ? parseFloat(userData.budget.income) -
-            parseFloat(userData.budget.housing) -
-            parseFloat(userData.budget.utilities) -
-            parseFloat(userData.budget.debt) -
-            parseFloat(userData.budget.car) -
-            parseFloat(userData.budget.phone) -
-            parseFloat(userData.budget.subscriptions) -
-            parseFloat(userData.budget.insurance) -
-            parseFloat(userData.budget.childCare) -
-            parseFloat(userData.budget.internet) -
-            (userData.purchaseHistory?.filter(
-                (purchase: { purchaseDate: number }) =>
-                    purchase.purchaseDate === generateDateId()
-            )?.reduce((total: any, purchase: { purchaseAmount: any }) => total + parseFloat(purchase.purchaseAmount), 0) || 0)
-            : 0
-    );
+    const [currentTotal, setCurrentTotal] = useState<number>(() => {
+        const parseBudgetItem = (item: string) => parseFloat(item) || 0;
+
+        const initialIncome = parseBudgetItem(userData?.budget.income);
+        const housing = parseBudgetItem(userData?.budget.housing);
+        const utilities = parseBudgetItem(userData?.budget.utilities);
+        const debt = parseBudgetItem(userData?.budget.debt);
+        const car = parseBudgetItem(userData?.budget.car);
+        const phone = parseBudgetItem(userData?.budget.phone);
+        const subscriptions = parseBudgetItem(userData?.budget.subscriptions);
+        const insurance = parseBudgetItem(userData?.budget.insurance);
+        const childCare = parseBudgetItem(userData?.budget.childCare);
+        const internet = parseBudgetItem(userData?.budget.internet);
+
+        const purchaseHistoryTotal = (userData?.purchaseHistory || [])
+            .filter((purchase: { purchaseDate: number }) =>
+                purchase.purchaseDate === generateDateId()
+            )
+            .reduce(
+                (total: any, purchase: { purchaseAmount: any }) =>
+                    total + parseFloat(purchase.purchaseAmount),
+                0
+            ) || 0;
+
+        return (
+            initialIncome -
+            housing -
+            utilities -
+            debt -
+            car -
+            phone -
+            subscriptions -
+            insurance -
+            childCare -
+            internet -
+            purchaseHistoryTotal
+        );
+    });
+
     // Convert to string and back to number with two decimal places... avoids floating point precision bug
     useEffect(() => {
         const roundedTotal = parseFloat(currentTotal.toFixed(2));
