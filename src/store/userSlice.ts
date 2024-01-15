@@ -1,3 +1,4 @@
+// Manages User data.
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import UserData from '@/src/types/UserData';

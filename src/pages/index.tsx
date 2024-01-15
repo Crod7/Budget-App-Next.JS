@@ -10,7 +10,9 @@ export default function BasePage() {
     // Redux
     const userData = useSelector((state: any) => state.user.userData);
     const loadingScreen = useSelector((state: any) => state.loadingScreen.loadingScreen);
+    const page = useSelector((state: any) => state.page.page)
 
+    console.log(page)
     return (
         <div>
             {loadingScreen && (
