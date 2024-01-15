@@ -13,7 +13,7 @@ const MainWithBudget: React.FC = () => {
     const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
     return (
-        <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
+        <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-2 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
             <BudgetSetup />
         </div>
     )

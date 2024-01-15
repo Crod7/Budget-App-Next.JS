@@ -85,19 +85,19 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className={`${customColorModeClass} p-2 h-12 flex justify-between items-center`}>
-      <ul className="flex list-none m-0 p-0">
-        <li className='pl-0'>
-
-          <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
-            Budget
-          </button>
-        </li>
+    <nav className={`${customColorModeClass} p-2 h-12 flex`}>
+      <ul className="flex list-none m-0 p-0 justify-between items-center">
         {user ? (
           <>
             <li className="pl-3">
               <button className={`${page === 'main' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleOverviewClick()}>
                 Overview
+              </button>
+            </li>
+            <li className='pl-3'>
+
+              <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
+                Budget
               </button>
             </li>
           </>
@@ -111,21 +111,25 @@ const Navbar: React.FC = () => {
           </div>
         )}
       </ul>
-      {user && (
-        <div className="flex items-center">
-          {user.picture && (
-            <img
-              src={user.picture}
-              alt={user.name || 'User'}
-              className="w-10 h-10 rounded-full mr-2"
-            />
-          )}
-          <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
-            Logout
-          </button>
-        </div>
-      )}
-      <ToggleColorMode />
+      <div className='ml-auto'>
+        {user && (
+          <div className="flex items-center">
+            {user.picture && (
+              <img
+                src={user.picture}
+                alt={user.name || 'User'}
+                className="w-10 h-10 rounded-full mr-2"
+              />
+            )}
+            <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+      <div className='pl-3'>
+        <ToggleColorMode />
+      </div>
     </nav>
   );
 }

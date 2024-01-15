@@ -7,10 +7,7 @@ const ToggleColorMode = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     return <Button
         onClick={() => toggleColorMode()}
-        pos="absolute"
-        top="2.5rem"
         right="0"
-        m="1rem"
     >{colorMode === "dark" ? <SunIcon color="orange.400" /> : <MoonIcon color="blue.700" />}</Button>
 }
 
