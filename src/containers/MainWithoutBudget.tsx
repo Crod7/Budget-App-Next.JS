@@ -10,7 +10,6 @@ const MainWithBudget: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
             <BudgetSetup />
         </div>
     )

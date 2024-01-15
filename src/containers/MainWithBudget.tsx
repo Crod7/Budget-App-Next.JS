@@ -11,7 +11,6 @@ const MainWithBudget: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
             <BudgetOverview />
         </div>
     )
