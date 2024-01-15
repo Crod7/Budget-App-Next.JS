@@ -1,6 +1,4 @@
 import BudgetSetup from "../components/BudgetSetup";
-import Navbar from "../components/Navbar";
-import UserData from "../types/UserData";
 
 
 

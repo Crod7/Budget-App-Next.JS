@@ -9,7 +9,7 @@ import GetUser from '@/lib/database/apiFunctions/GetUser';
 // Redux Imports
 import { setUserData } from '@/src/store/userSlice';
 import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 
