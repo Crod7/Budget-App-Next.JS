@@ -1,3 +1,4 @@
+// Manages Loading State.
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 

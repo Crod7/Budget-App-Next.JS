@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useColorMode } from '@chakra-ui/react'; // Import useColorMode
+import React, { useEffect, useState } from 'react';
 import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 //Redux Imports
 import { setUserData } from '@/src/store/userSlice';
@@ -12,61 +11,59 @@ const BudgetSetup: React.FC = () => {
     const dispatch = useDispatch();
     const userData = useSelector((state: any) => state.user.userData);
 
-    // Color Mode
-    const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
-    const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
 
-    // Use state to manage the input values
-    const [income, setIncome] = useState<number>(0);
-    const [housing, setHousing] = useState<number>(0);
-    const [utilities, setUtilities] = useState<number>(0);
-    const [debt, setDebt] = useState<number>(0);
-    const [car, setCar] = useState<number>(0);
-    const [phone, setPhone] = useState<number>(0);
-    const [internet, setInternet] = useState<number>(0);
-    const [subscriptions, setSubscriptions] = useState<number>(0);
-    const [insurance, setInsurance] = useState<number>(0);
-    const [childCare, setChildCare] = useState<number>(0);
+    // Use state to manage the input values depending on if a budget already exists or not
+    const [income, setIncome] = useState<string>('');
+    const [housing, setHousing] = useState<string>('');
+    const [utilities, setUtilities] = useState<string>('');
+    const [debt, setDebt] = useState<string>('');
+    const [car, setCar] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
+    const [internet, setInternet] = useState<string>('');
+    const [subscriptions, setSubscriptions] = useState<string>('');
+    const [insurance, setInsurance] = useState<string>('');
+    const [childCare, setChildCare] = useState<string>('');
+
 
 
 
     // Handle input changes
-    const handleIncomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIncome(parseFloat(event.target.value) || 0);
-    };
+    // const handleIncomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setIncome(parseFloat(event.target.value) || 0);
+    // };
 
-    const handleHousingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setHousing(parseFloat(event.target.value) || 0);
-    };
+    // const handleHousingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setHousing(parseFloat(event.target.value) || 0);
+    // };
 
-    const handleUtilitiesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUtilities(parseFloat(event.target.value) || 0);
-    };
+    // const handleUtilitiesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setUtilities(parseFloat(event.target.value) || 0);
+    // };
 
-    const handleDebtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDebt(parseFloat(event.target.value) || 0);
-    };
+    // const handleDebtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setDebt(parseFloat(event.target.value) || 0);
+    // };
 
-    const handleCarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCar(parseFloat(event.target.value) || 0);
-    };
+    // const handleCarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setCar(parseFloat(event.target.value) || 0);
+    // };
 
-    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPhone(parseFloat(event.target.value) || 0);
-    };
+    // const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setPhone(parseFloat(event.target.value) || 0);
+    // };
 
-    const handleInternetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInternet(parseFloat(event.target.value) || 0);
-    };
-    const handleSubscriptionsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSubscriptions(parseFloat(event.target.value) || 0);
-    };
-    const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInsurance(parseFloat(event.target.value) || 0);
-    };
-    const handleChildCareChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChildCare(parseFloat(event.target.value) || 0);
-    };
+    // const handleInternetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setInternet(parseFloat(event.target.value) || 0);
+    // };
+    // const handleSubscriptionsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSubscriptions(parseFloat(event.target.value) || 0);
+    // };
+    // const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setInsurance(parseFloat(event.target.value) || 0);
+    // };
+    // const handleChildCareChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setChildCare(parseFloat(event.target.value) || 0);
+    // };
 
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
@@ -100,128 +97,155 @@ const BudgetSetup: React.FC = () => {
     };
 
 
+
+    useEffect(() => {
+        if (userData && userData.budget) {
+            console.log(userData.budget)
+            setIncome(userData.budget.income || '');
+            setHousing(userData.budget.housing || '');
+            setUtilities(userData.budget.utilities || '');
+            setDebt(userData.budget.debt || '');
+            setCar(userData.budget.car || '');
+            setPhone(userData.budget.phone || '');
+            setInternet(userData.budget.internet || '');
+            setSubscriptions(userData.budget.subscriptions || '');
+            setInsurance(userData.budget.insurance || '');
+            setChildCare(userData.budget.childCare || '');
+        }
+    }, [userData]);
+
     if (userData) {
         return (
-            <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-16 py-4 px-12 rounded-lg min-w-[800px] max-w-[80vw] mx-auto`} >
+            <div>
                 <div className='text-2xl font-bold'>Welcome {userData.name}!</div>
                 <div className='text-lg font-bold'>Lets create your budget.</div>
 
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="income" className=' mx-4 my-auto text-center'>Income:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Income'
                         id="income"
                         value={income}
-                        onChange={handleIncomeChange}
+                        onChange={(e) => setIncome(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="housing" className=' mx-4 my-auto text-center'>Rent/ Mortgage:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Housing'
                         id="housing"
                         value={housing}
-                        onChange={handleHousingChange}
+                        onChange={(e) => setHousing(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="utilities" className=' mx-4 my-auto text-center'>Utilities:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Utilities'
                         id="utilities"
                         value={utilities}
-                        onChange={handleUtilitiesChange}
+                        onChange={(e) => setUtilities(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="debt" className=' mx-4 my-auto text-center'>Debt:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Debt Payments'
                         id="debt"
                         value={debt}
-                        onChange={handleDebtChange}
+                        onChange={(e) => setDebt(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="car" className=' mx-4 my-auto text-center'>Car:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Car Payments'
                         id="car"
                         value={car}
-                        onChange={handleCarChange}
+                        onChange={(e) => setCar(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="phone" className=' mx-4 my-auto text-center'>Phone:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Phone'
                         id="phone"
                         value={phone}
-                        onChange={handlePhoneChange}
+                        onChange={(e) => setPhone(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="internet" className=' mx-4 my-auto text-center'>Internet:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Internet'
                         id="internet"
                         value={internet}
-                        onChange={handleInternetChange}
+                        onChange={(e) => setInternet(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="subscriptions" className=' mx-4 my-auto text-center'>Subscriptions:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Subscriptions'
                         id="subscriptions"
                         value={subscriptions}
-                        onChange={handleSubscriptionsChange}
+                        onChange={(e) => setSubscriptions(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="insurance" className=' mx-4 my-auto text-center'>Insurance:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Insurance'
                         id="insurance"
                         value={insurance}
-                        onChange={handleInsuranceChange}
+                        onChange={(e) => setInsurance(e.target.value)}
                         required
                     />
                 </div>
-                <div className={`font-bold flex  my-8 ${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} w-full rounded-lg`}>
+                <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="childCare" className=' mx-4 my-auto text-center'>Child Care:</label>
                     <input
-                        className={`${isDarkMode ? '' : 'bg-gray-200 '}w-full rounded-lg p-2 my-4 mx-8`}
-                        type="number"
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        type="text"
+                        placeholder='Child Care'
                         id="childCare"
                         value={childCare}
-                        onChange={handleChildCareChange}
+                        onChange={(e) => setChildCare(e.target.value)}
                         required
                     />
                 </div>
                 <div>
-                    <button type="button" onClick={handleSubmit}>Submit</button>
+                    <button type="button" className='font-extrabold border-2 p-3 rounded-lg' onClick={handleSubmit}>Submit</button>
                 </div>
 
 
-            </div >
+            </div>
 
         );
     }

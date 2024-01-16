@@ -10,6 +10,7 @@ export default function BasePage() {
     // Redux
     const userData = useSelector((state: any) => state.user.userData);
     const loadingScreen = useSelector((state: any) => state.loadingScreen.loadingScreen);
+    const page = useSelector((state: any) => state.page.page)
 
     return (
         <div>
@@ -17,10 +18,13 @@ export default function BasePage() {
                 <LoadingScreen />
             )}
             <Navbar />
-            {(userData && userData.budget) && (
+            {(page === 'main' && userData && userData.budget) && (
                 <MainWithBudget />
             )}
-            {(userData && !userData.budget) && (
+            {(page === 'main' && userData && !userData.budget) && (
+                <MainWithoutBudget />
+            )}
+            {(page === 'budget' && userData && userData.budget) && (
                 <MainWithoutBudget />
             )}
         </div>

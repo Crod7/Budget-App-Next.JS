@@ -9,17 +9,24 @@ import GetUser from '@/lib/database/apiFunctions/GetUser';
 // Redux Imports
 import { setUserData } from '@/src/store/userSlice';
 import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
+import { setPage } from '../store/pageSlice';
 import { useDispatch } from 'react-redux';
-
+//Redux Imports
+import { useSelector } from 'react-redux';
 
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
 
+  // Color Mode Imports
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
   const customColorModeClass = isDarkMode ? 'dark' : 'light'; // Determine the appropriate class
+
+  // Redux
+  const page = useSelector((state: any) => state.page.page)
+
 
   // Handles login / logout functionality
   const handleLoginClick = () => {
@@ -33,6 +40,7 @@ const Navbar: React.FC = () => {
 
   // We grab userData from the database by searching for it with the user from useUser
   const getUserData = async () => {
+    dispatch(setLoadingScreen(true))
     if (user) {
       try {
         const data = await GetUser(user.email);
@@ -41,11 +49,12 @@ const Navbar: React.FC = () => {
         console.error('Error fetching user data:', error);
       }
     }
+    dispatch(setLoadingScreen(false))
   };
 
   const loginUser = async () => {
+    dispatch(setLoadingScreen(true))
     if (user) {
-
       const userExists = await CheckUser(user.email);
       if (userExists === 'userNotFound') { // If the user dosen't exists we create one
         await PostUser(user);
@@ -55,10 +64,16 @@ const Navbar: React.FC = () => {
       if (userExists === 'userFound') { // If user does exists, we load data to userData
         getUserData();
       }
-
     }
+    dispatch(setLoadingScreen(false))
   }
 
+  const handleBudgetClick = () => {
+    dispatch(setPage('budget'))
+  }
+  const handleOverviewClick = () => {
+    dispatch(setPage('main'))
+  }
   useEffect(() => {
     loginUser();
   }, [isLoading]);
@@ -70,45 +85,51 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className={`${customColorModeClass} p-2 h-12 flex justify-between items-center`}>
-      <ul className="flex list-none m-0 p-0">
-        <li className="ml-6">
-          <Link href="/">Home</Link>
-        </li>
+    <nav className={`${customColorModeClass} p-2 h-12 flex`}>
+      <ul className="flex list-none m-0 p-0 justify-between items-center">
         {user ? (
           <>
-            <li className="ml-6">
-              <Link href="/dashboard">Dashboard</Link>
+            <li className="pl-3">
+              <button className={`${page === 'main' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleOverviewClick()}>
+                Overview
+              </button>
             </li>
-            <li className="ml-6">
-              <Link href="/profile">Profile</Link>
+            <li className='pl-3'>
+
+              <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
+                Budget
+              </button>
             </li>
           </>
         ) : (
           <div className="flex items-center">
             <li className="ml-6">
-              <button className="border-2 rounded-md px-2 py-1 font-bold" onClick={handleLoginClick}>
+              <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLoginClick}>
                 Login
               </button>
             </li>
           </div>
         )}
       </ul>
-      {user && (
-        <div className="flex items-center">
-          {user.picture && (
-            <img
-              src={user.picture}
-              alt={user.name || 'User'}
-              className="w-10 h-10 rounded-full mr-2"
-            />
-          )}
-          <button className="border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
-            Logout
-          </button>
-        </div>
-      )}
-      <ToggleColorMode />
+      <div className='ml-auto'>
+        {user && (
+          <div className="flex items-center">
+            {user.picture && (
+              <img
+                src={user.picture}
+                alt={user.name || 'User'}
+                className="w-10 h-10 rounded-full mr-2"
+              />
+            )}
+            <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLogoutClick}>
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+      <div className='pl-3'>
+        <ToggleColorMode />
+      </div>
     </nav>
   );
 }
