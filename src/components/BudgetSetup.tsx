@@ -24,47 +24,6 @@ const BudgetSetup: React.FC = () => {
     const [insurance, setInsurance] = useState<string>('');
     const [childCare, setChildCare] = useState<string>('');
 
-
-
-
-    // Handle input changes
-    // const handleIncomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setIncome(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleHousingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setHousing(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleUtilitiesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setUtilities(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleDebtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setDebt(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleCarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCar(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setPhone(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleInternetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setInternet(parseFloat(event.target.value) || 0);
-    // };
-    // const handleSubscriptionsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSubscriptions(parseFloat(event.target.value) || 0);
-    // };
-    // const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setInsurance(parseFloat(event.target.value) || 0);
-    // };
-    // const handleChildCareChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setChildCare(parseFloat(event.target.value) || 0);
-    // };
-
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
 
@@ -123,7 +82,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="income" className=' mx-4 my-auto text-center'>Income:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Income'
                         id="income"
@@ -135,7 +94,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="housing" className=' mx-4 my-auto text-center'>Rent/ Mortgage:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Housing'
                         id="housing"
@@ -147,7 +106,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="utilities" className=' mx-4 my-auto text-center'>Utilities:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Utilities'
                         id="utilities"
@@ -159,7 +118,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="debt" className=' mx-4 my-auto text-center'>Debt:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Debt Payments'
                         id="debt"
@@ -171,7 +130,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="car" className=' mx-4 my-auto text-center'>Car:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Car Payments'
                         id="car"
@@ -183,7 +142,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="phone" className=' mx-4 my-auto text-center'>Phone:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Phone'
                         id="phone"
@@ -195,7 +154,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="internet" className=' mx-4 my-auto text-center'>Internet:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Internet'
                         id="internet"
@@ -207,7 +166,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="subscriptions" className=' mx-4 my-auto text-center'>Subscriptions:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Subscriptions'
                         id="subscriptions"
@@ -219,7 +178,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="insurance" className=' mx-4 my-auto text-center'>Insurance:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Insurance'
                         id="insurance"
@@ -231,7 +190,7 @@ const BudgetSetup: React.FC = () => {
                 <div className='w-full flex font-extrabold py-4'>
                     <label htmlFor="childCare" className=' mx-4 my-auto text-center'>Child Care:</label>
                     <input
-                        className={`p-2 rounded-2xl shadow-xl border ml-auto`}
+                        className={`p-2 rounded-2xl shadow-xl border ml-auto sm:w-[50%] w-[100px]`}
                         type="text"
                         placeholder='Child Care'
                         id="childCare"
