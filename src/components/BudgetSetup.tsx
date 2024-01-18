@@ -24,47 +24,6 @@ const BudgetSetup: React.FC = () => {
     const [insurance, setInsurance] = useState<string>('');
     const [childCare, setChildCare] = useState<string>('');
 
-
-
-
-    // Handle input changes
-    // const handleIncomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setIncome(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleHousingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setHousing(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleUtilitiesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setUtilities(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleDebtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setDebt(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleCarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCar(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setPhone(parseFloat(event.target.value) || 0);
-    // };
-
-    // const handleInternetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setInternet(parseFloat(event.target.value) || 0);
-    // };
-    // const handleSubscriptionsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSubscriptions(parseFloat(event.target.value) || 0);
-    // };
-    // const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setInsurance(parseFloat(event.target.value) || 0);
-    // };
-    // const handleChildCareChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setChildCare(parseFloat(event.target.value) || 0);
-    // };
-
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
 

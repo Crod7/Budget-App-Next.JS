@@ -92,7 +92,7 @@ const AddPurchase: React.FC = () => {
         // Ensure purchaseAmount is a valid integer
         if (purchaseAmount && purchaseName && purchaseCategory) {
             const purchaseValue = parseFloat(purchaseAmount);
-            if (isNaN(purchaseValue) || purchaseValue < 0 || !/^\d+(\.\d{1,2})?$/.test(purchaseAmount)) {
+            if (isNaN(purchaseValue) || purchaseValue < 0 || !/^\d+(\.\d{1,2})?$/.test(purchaseValue.toString())) {
                 alert('Please enter a valid amount with up to two decimal places.');
                 dispatch(setLoadingScreen(false))
                 return;
@@ -135,7 +135,7 @@ const AddPurchase: React.FC = () => {
         return (
             <div >
                 <div className='text-5xl font-extrabold text-green-500 text-center'>
-                    ${currentTotal}
+                    ${currentTotal.toFixed(2)}
                 </div>
                 <div className='py-10 flex'>
                     <div className=' w-full'>
