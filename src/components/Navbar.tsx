@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { useColorMode } from '@chakra-ui/react';
@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
-
+  const [testUser, setTestUser] = useState<Boolean>(false);
   // Color Mode Imports
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
@@ -26,6 +26,9 @@ const Navbar: React.FC = () => {
 
   // Redux
   const page = useSelector((state: any) => state.page.page)
+  const userData = useSelector((state: any) => state.user.userData);
+
+
 
 
   // Handles login / logout functionality
@@ -38,6 +41,32 @@ const Navbar: React.FC = () => {
     window.location.href = '/api/auth/logout';
   }
 
+  // Handles Test User login
+  const handleTestUserClick = async () => {
+    dispatch(setLoadingScreen(true))
+
+    const userExists = await CheckUser('test@test.com');
+    if (userExists === 'userNotFound') { // If the user dosen't exists we create one
+      await PostUser({
+        name: 'Test User',
+        email: 'test@test.com',
+      });
+      const newUser = await GetUser('test@test.com')
+      dispatch(setUserData(newUser));
+    }
+    if (userExists === 'userFound') { // If user does exists, we load data to userData
+      try {
+        const data = await GetUser('test@test.com');
+        dispatch(setUserData(data));
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+
+    dispatch(setLoadingScreen(false))
+
+
+  }
   // We grab userData from the database by searching for it with the user from useUser
   const getUserData = async () => {
     dispatch(setLoadingScreen(true))
@@ -87,7 +116,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`${customColorModeClass} p-2 h-12 flex`}>
       <ul className="flex list-none m-0 p-0 justify-between items-center">
-        {user ? (
+        {(userData) ? (
           <>
             <li className="pl-3">
               <button className={`${page === 'main' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleOverviewClick()}>
@@ -104,17 +133,23 @@ const Navbar: React.FC = () => {
         ) : (
           <div className="flex items-center">
             <li className="ml-6">
-              <button className="button border-2 rounded-md px-2 py-1 font-bold" onClick={handleLoginClick}>
-                Login
+              <button className="button border-2 rounded-md sm:px-8 px-2 py-1 font-bold" onClick={handleLoginClick}>
+                Login / Signup
+              </button>
+            </li>
+            <li className="ml-6">
+              <button className="button border-2 rounded-md sm:px-8 px-2 py-1 font-bold" onClick={handleTestUserClick}>
+                Try w/o Logging in
               </button>
             </li>
           </div>
+
         )}
       </ul>
       <div className='ml-auto'>
-        {user && (
+        {(userData) && (
           <div className="flex items-center">
-            {user.picture && (
+            {user && user.picture && (
               <img
                 src={user.picture}
                 alt={user.name || 'User'}
