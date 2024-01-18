@@ -123,12 +123,14 @@ const Navbar: React.FC = () => {
                 Overview
               </button>
             </li>
-            <li className='pl-3'>
+            {(userData.budget) && (
+              <li className='pl-3'>
+                <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
+                  Budget
+                </button>
+              </li>
+            )}
 
-              <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
-                Budget
-              </button>
-            </li>
           </>
         ) : (
           <div className="flex items-center">
