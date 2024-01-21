@@ -4,13 +4,14 @@ import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
 import { setUserData } from '@/src/store/userSlice';
 import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { setPage } from '../store/pageSlice';
 
 
 const BudgetSetup: React.FC = () => {
     // Redux
     const dispatch = useDispatch();
     const userData = useSelector((state: any) => state.user.userData);
-
+    const page = useSelector((state: any) => state.page.page);
 
     // Use state to manage the input values depending on if a budget already exists or not
     const [income, setIncome] = useState<string>('');
@@ -49,6 +50,7 @@ const BudgetSetup: React.FC = () => {
         try {
             await UpdatedUser(updatedUser)
             dispatch(setUserData(updatedUser));
+            dispatch(setPage('main'))
         } catch (error) {
             console.error("UpdateUser Failed: oh no.... our table.... it's broken.", error)
         }

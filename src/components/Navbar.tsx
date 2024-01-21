@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
-  const [testUser, setTestUser] = useState<Boolean>(false);
+
   // Color Mode Imports
   const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
   const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className={`${customColorModeClass} p-2 h-12 flex`}>
+    <nav className={`${customColorModeClass} p-2 h-12 flex mt-3`}>
       <ul className="flex list-none m-0 p-0 justify-between items-center">
         {(userData) ? (
           <>
@@ -134,12 +134,12 @@ const Navbar: React.FC = () => {
           </>
         ) : (
           <div className="flex items-center">
-            <li className="ml-6">
+            <li className="pl-3">
               <button className="button border-2 rounded-md sm:px-8 px-2 py-1 font-bold" onClick={handleLoginClick}>
                 Login / Signup
               </button>
             </li>
-            <li className="ml-6">
+            <li className="pl-3">
               <button className="button border-2 rounded-md sm:px-8 px-2 py-1 font-bold" onClick={handleTestUserClick}>
                 Try w/o Logging in
               </button>
