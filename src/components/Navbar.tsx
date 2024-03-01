@@ -103,6 +103,9 @@ const Navbar: React.FC = () => {
   const handleOverviewClick = () => {
     dispatch(setPage('main'))
   }
+  const handleCategoryClick = () => {
+    dispatch(setPage('category'))
+  }
   useEffect(() => {
     loginUser();
   }, [isLoading]);
@@ -127,6 +130,13 @@ const Navbar: React.FC = () => {
               <li className='pl-3'>
                 <button className={`${page === 'budget' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleBudgetClick()}>
                   Budget
+                </button>
+              </li>
+            )}
+            {(userData.budget) && (
+              <li className='pl-3'>
+                <button className={`${page === 'category' ? 'bg-blue-500 text-white' : ''} button border-2 rounded-md px-2 py-1 font-bold`} onClick={() => handleCategoryClick()}>
+                  Category
                 </button>
               </li>
             )}
