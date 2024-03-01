@@ -18,38 +18,38 @@ const CategoryCreate: React.FC = () => {
     const userData = useSelector((state: any) => state.user.userData);
 
     // Calculates user's budget from monthly expenses
-    const [purchaseAmount, setPurchaseAmount] = useState<string>('');
+    const [categoryName, setCategoryName] = useState<string>('');
 
+    // Generates an ID for the category
+    function getRandomInt(min: number, max: number) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-    const handleAddPurchase = async (e: React.FormEvent) => {
+    const handleAddCategory = async (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(setLoadingScreen(true))
 
         // Ensure purchaseAmount is a valid integer
-        if (purchaseAmount) {
-            const purchaseValue = parseFloat(purchaseAmount);
-            if (isNaN(purchaseValue) || purchaseValue < 0 || !/^\d+(\.\d{1,2})?$/.test(purchaseValue.toString())) {
-                alert('Please enter a valid amount with up to two decimal places.');
-                dispatch(setLoadingScreen(false))
-                return;
-            }
-
+        if (categoryName) {
 
             // The purchase gets recorded in the user's purchase history
-            const purchaseData = {
-                purchaseAmount: purchaseAmount,
+            const categoryData = {
+                categoryName: categoryName,
+                categoryId: getRandomInt(0, 100000)
             };
             const updatedUser = {
                 ...userData,
-                purchaseHistory: [...(userData?.purchaseHistory || []), purchaseData],
+                categories: [...(userData?.categories || []), categoryData],
             };
             try {
                 await UpdatedUser(updatedUser)
                 dispatch(setUserData(updatedUser));
             } catch (error) {
-                console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside BudgetOverview.tsx", error)
+                console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside CategoryCreate.tsx", error)
             }
-            setPurchaseAmount('');
+            setCategoryName('');
         } else {
             alert('Please fill in all fields.');
         }
@@ -59,9 +59,26 @@ const CategoryCreate: React.FC = () => {
 
     if (userData) {
         return (
-            <div >
+            <form onSubmit={handleAddCategory}>
+                <div className='py-8'>
+                    <input
+                        type="text"
+                        placeholder='Category Name'
+                        className='p-2 rounded-2xl shadow-xl border w-[100%] font-extrabold'
+                        value={categoryName}
+                        onChange={(e) => setCategoryName(e.target.value)}
+                    />
 
-            </div>
+                </div>
+
+                <div className='flex w-full gap-4 p-4 justify-center'>
+                    <button type="submit" className='font-extrabold bg-green-500 p-4 min-w-[150px] rounded-2xl '>Add Category</button>
+                    <button type="button" onClick={() => {
+                        setCategoryName('');
+                    }} className='font-extrabold bg-red-500 p-4 min-w-[150px] rounded-2xl '>Clear</button>
+
+                </div>
+            </form>
         );
     }
 
