@@ -1,0 +1,26 @@
+import CategoryCreate from "../components/CategoryCreate";
+import CategoryList from "../components/CategoryList";
+
+// Color Mode Imports
+import { useColorMode } from '@chakra-ui/react';
+
+
+
+const Category: React.FC = () => {
+
+    // Color Mode
+    const { colorMode } = useColorMode(); // Get the current color mode from useColorMode
+    const isDarkMode = colorMode === 'dark'; // Check if it's dark mode
+
+    return (
+        <div className={`${isDarkMode ? 'dark darkModeShadow' : 'light lightModeShadow'} my-2 py-4 px-12 rounded-lg  max-w-[800px] mx-auto`}>
+            <CategoryCreate />
+            <CategoryList />
+        </div>
+    )
+
+
+
+}
+
+export default Category;

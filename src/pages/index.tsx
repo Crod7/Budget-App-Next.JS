@@ -3,6 +3,7 @@ import LoadingScreen from '../components/Utility/Loading-Feature/LoadingScreen';
 import Navbar from '@/src/components/Navbar';
 import MainWithBudget from '../containers/MainWithBudget';
 import MainWithoutBudget from '../containers/MainWithoutBudget';
+import Category from '../containers/Category';
 //Redux Imports
 import { useSelector } from 'react-redux';
 
@@ -26,6 +27,9 @@ export default function BasePage() {
             )}
             {(page === 'budget' && userData && userData.budget) && (
                 <MainWithoutBudget />
+            )}
+            {(page === 'category' && userData) && (
+                <Category />
             )}
         </div>
     );
