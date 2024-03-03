@@ -64,6 +64,7 @@ const AddPurchase: React.FC = () => {
         );
     });
 
+
     // Convert to string and back to number with two decimal places... avoids floating point precision bug
     useEffect(() => {
         const roundedTotal = parseFloat(currentTotal.toFixed(2));
@@ -163,14 +164,21 @@ const AddPurchase: React.FC = () => {
                                         value={purchaseName}
                                         onChange={(e) => setPurchaseName(e.target.value)} />
                                 </div>
-                                <div className='py-4 font-bold '>
-                                    <input
-                                        type="text"
-                                        placeholder='Category'
+                                <div className='py-4 font-bold'>
+                                    <select
                                         className='p-2 rounded-2xl shadow-xl border ml-2 sm:ml-0 sm:w-[90%]'
                                         value={purchaseCategory}
-                                        onChange={(e) => setPurchaseCategory(e.target.value)} />
+                                        onChange={(e) => setPurchaseCategory(e.target.value)}
+                                    >
+                                        <option value="" disabled >Category</option>
+                                        {userData.categories.map((category: any) => (
+                                            <option key={category.categoryName} value={category.categoryName}>
+                                                {category.categoryName}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
+
                             </div>
                             <div className='flex w-full gap-4'>
                                 <button type="submit" className='font-extrabold bg-green-500 p-4 min-w-[150px] rounded-2xl '>Add Purchase</button>

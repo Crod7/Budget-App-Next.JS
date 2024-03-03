@@ -61,7 +61,6 @@ const BudgetSetup: React.FC = () => {
 
     useEffect(() => {
         if (userData && userData.budget) {
-            console.log(userData.budget)
             setIncome(userData.budget.income || '');
             setHousing(userData.budget.housing || '');
             setUtilities(userData.budget.utilities || '');

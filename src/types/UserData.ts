@@ -4,6 +4,7 @@ interface UserData {
     name?: string;
     budget?: any;
     purchaseHistory?: any;
+    categories?: any;
 }
 
 export default UserData;

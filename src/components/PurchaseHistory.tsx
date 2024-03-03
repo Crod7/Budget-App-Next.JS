@@ -26,6 +26,7 @@ const PurchaseHistory: React.FC = () => {
                                         <div className="border-2 p-4 flex sm:flex-row shadow-md rounded-2xl w-full my-4 justify-between px-10">
                                             <div className='mb-2 sm:mb-0 sm:mr-2'>
                                                 <div className='font-extrabold'>{purchase.purchaseName}</div>
+                                                <div className='text-gray-500 font-bold'>{purchase.purchaseCategory}</div>
                                                 <div className='text-gray-500 font-extralight'>{(purchase && purchase.purchaseDateTime) ? purchase.purchaseDateTime : 'Date not available'}</div>
 
                                             </div>
