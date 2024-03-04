@@ -19,6 +19,7 @@ const CategoryCreate: React.FC = () => {
 
     // Calculates user's budget from monthly expenses
     const [categoryName, setCategoryName] = useState<string>('');
+    const [categoryAmount, setCategoryAmount] = useState<string>('')
 
     // Generates an ID for the category
     function getRandomInt(min: number, max: number) {
@@ -32,12 +33,20 @@ const CategoryCreate: React.FC = () => {
         dispatch(setLoadingScreen(true))
 
         // Ensure purchaseAmount is a valid integer
-        if (categoryName) {
+        if (categoryName && categoryAmount) {
+            // Verify amount is a number
+            const categoryValue = parseFloat(categoryAmount);
+            if (isNaN(categoryValue) || categoryValue < 0 || !/^\d+(\.\d{1,2})?$/.test(categoryValue.toString())) {
+                alert('Please enter a valid amount with up to two decimal places.');
+                dispatch(setLoadingScreen(false))
+                return;
+            }
 
             // The purchase gets recorded in the user's purchase history
             const categoryData = {
                 categoryName: categoryName,
-                categoryId: getRandomInt(0, 100000)
+                categoryId: getRandomInt(0, 100000),
+                categoryAmount: categoryValue
             };
             const updatedUser = {
                 ...userData,
@@ -50,6 +59,7 @@ const CategoryCreate: React.FC = () => {
                 console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside CategoryCreate.tsx", error)
             }
             setCategoryName('');
+            setCategoryAmount('');
         } else {
             alert('Please fill in all fields.');
         }
@@ -64,17 +74,24 @@ const CategoryCreate: React.FC = () => {
                     <input
                         type="text"
                         placeholder='Category Name'
-                        className='p-2 rounded-2xl shadow-xl border w-[100%] font-extrabold'
+                        className='p-2 my-2 rounded-2xl shadow-xl border w-[100%] font-extrabold'
                         value={categoryName}
                         onChange={(e) => setCategoryName(e.target.value)}
                     />
-
+                    <input
+                        type="text"
+                        placeholder='Amount in this budget'
+                        className='p-2 my-2 rounded-2xl shadow-xl border w-[100%] font-extrabold'
+                        value={categoryAmount}
+                        onChange={(e) => setCategoryAmount(e.target.value)}
+                    />
                 </div>
 
                 <div className='flex w-full gap-4 p-4 justify-center'>
                     <button type="submit" className='font-extrabold bg-green-500 p-4 min-w-[150px] rounded-2xl '>Add Category</button>
                     <button type="button" onClick={() => {
                         setCategoryName('');
+                        setCategoryAmount('');
                     }} className='font-extrabold bg-red-500 p-4 min-w-[150px] rounded-2xl '>Clear</button>
 
                 </div>
