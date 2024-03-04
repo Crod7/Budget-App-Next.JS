@@ -171,11 +171,11 @@ const AddPurchase: React.FC = () => {
                                         onChange={(e) => setPurchaseCategory(e.target.value)}
                                     >
                                         <option value="" disabled >Category</option>
-                                        {userData.categories.map((category: any) => (
+                                        {userData.categories && (userData.categories.map((category: any) => (
                                             <option key={category.categoryName} value={category.categoryName}>
                                                 {category.categoryName}
                                             </option>
-                                        ))}
+                                        )))}
                                     </select>
                                 </div>
 
