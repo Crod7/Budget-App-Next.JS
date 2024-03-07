@@ -41,6 +41,9 @@ const CategoryList: React.FC = () => {
         );
     });
 
+    const [unusedTotal, setUnusedTotal] = useState<number>(0)
+
+
     function generateRemainingBalance(amount: any, category: any) {
         let purchases = userData.purchaseHistory
             .filter((purchase: any) => purchase.purchaseDate === generateDateId())
@@ -54,17 +57,19 @@ const CategoryList: React.FC = () => {
     }
 
 
+
     // Below is the code needed to modify existing categories
     const [showModal, setShowModal] = useState(false);
     const [category, setCategory] = useState(Object)
 
+    // Below is the code needed to keep unused budget up to date.
     useEffect(() => {
-        if (category.categoryId) {
-            console.log(category);
-            setShowModal(true);
+        let temp = 0;
+        for (let item of userData.categories) {
+            temp = temp + item.categoryAmount;
         }
-    }, [category]);
-
+        setUnusedTotal(currentTotal - temp);
+    }, [category, userData]);
 
     return (
         <div>
@@ -88,10 +93,10 @@ const CategoryList: React.FC = () => {
                     <div>
                         <div className='font-extrabold text-center text-2xl py-4'>
                             <div>
-                                Remaining Budget:
+                                Unused Budget:
                             </div>
                             <div>
-                                {currentTotal.toFixed(2)} / {currentTotal.toFixed(2)}
+                                {unusedTotal.toFixed(2)} / {currentTotal.toFixed(2)}
                             </div>
 
                         </div>
@@ -107,6 +112,7 @@ const CategoryList: React.FC = () => {
                                     </div>
                                     <button type="submit" onClick={() => {
                                         setCategory(category);
+                                        setShowModal(true);
                                     }} className='font-extrabold bg-gray-500 p-4 ml-4 min-w-[50px] rounded-2xl'>Modify</button>
                                 </div>
                             )))}
