@@ -45,15 +45,19 @@ const CategoryList: React.FC = () => {
 
 
     function generateRemainingBalance(amount: any, category: any) {
-        let purchases = userData.purchaseHistory
-            .filter((purchase: any) => purchase.purchaseDate === generateDateId())
-            .filter((purchase: any) => purchase.purchaseCategory === category.categoryName)
-        const parseBudgetItem = (item: string) => parseFloat(item) || 0;
+        if (userData.purchaseHistory) {
+            let purchases = userData.purchaseHistory
+                .filter((purchase: any) => purchase.purchaseDate === generateDateId())
+                .filter((purchase: any) => purchase.purchaseCategory === category.categoryName)
+            const parseBudgetItem = (item: string) => parseFloat(item) || 0;
 
-        for (let purchase of purchases) {
-            amount = parseBudgetItem(amount) - parseBudgetItem(purchase.purchaseAmount)
+            for (let purchase of purchases) {
+                amount = parseBudgetItem(amount) - parseBudgetItem(purchase.purchaseAmount)
+            }
+            return amount.toFixed(2)
+        } else {
+            return amount.toFixed(2)
         }
-        return amount.toFixed(2)
     }
 
 
@@ -63,14 +67,18 @@ const CategoryList: React.FC = () => {
     const [category, setCategory] = useState(Object)
 
     // Below is the code needed to keep unused budget up to date.
-    useEffect(() => {
-        let temp = 0;
-        for (let item of userData.categories) {
-            temp = temp + item.categoryAmount;
-        }
-        setUnusedTotal(currentTotal - temp);
-    }, [category, userData]);
 
+    useEffect(() => {
+        if (userData.categories && userData.categories.length > 0) {
+            let temp = 0;
+            for (let item of userData.categories) {
+                temp = temp + item.categoryAmount;
+            }
+            setUnusedTotal(currentTotal - temp);
+        }
+
+    }, [category, userData]);
+    console.log(userData)
     return (
         <div>
             {(showModal) && (
@@ -101,25 +109,26 @@ const CategoryList: React.FC = () => {
 
                         </div>
                         <h2 className='font-extrabold text-3xl'>Categories:</h2>
-                        <div>
-                            {userData.categories && (userData.categories.map((category: any) => (
-                                <div key={category.categoryId} className='font-extrabold flex p-2'>
-                                    <div>
-                                        {category.categoryName}
-                                    </div>
-                                    <div className='ml-auto'>
-                                        {generateRemainingBalance(category.categoryAmount, category)} / {category.categoryAmount}
-                                    </div>
-                                    <button type="submit" onClick={() => {
-                                        setCategory(category);
-                                        setShowModal(true);
-                                    }} className='font-extrabold bg-gray-500 p-4 ml-4 min-w-[50px] rounded-2xl'>Modify</button>
-                                </div>
-                            )))}
-                        </div>
+
                     </div>
                 )
             }
+            <div>
+                {userData.categories && (userData.categories.map((category: any) => (
+                    <div key={category.categoryId} className='font-extrabold flex p-2'>
+                        <div>
+                            {category.categoryName}
+                        </div>
+                        <div className='ml-auto'>
+                            {generateRemainingBalance(category.categoryAmount, category)} / {category.categoryAmount}
+                        </div>
+                        <button type="submit" onClick={() => {
+                            setCategory(category);
+                            setShowModal(true);
+                        }} className='font-extrabold bg-gray-500 p-4 ml-4 min-w-[50px] rounded-2xl'>Modify</button>
+                    </div>
+                )))}
+            </div>
         </div>)
 };
 
