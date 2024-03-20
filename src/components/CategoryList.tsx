@@ -76,6 +76,9 @@ const CategoryList: React.FC = () => {
             }
             setUnusedTotal(currentTotal - temp);
         }
+        else {
+            setUnusedTotal(currentTotal)
+        }
 
     }, [category, userData]);
     console.log(userData)
@@ -98,6 +101,23 @@ const CategoryList: React.FC = () => {
             )}
             {
                 userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
+                    <div>
+                        <div className='font-extrabold text-center text-2xl py-4'>
+                            <div>
+                                Unused Budget:
+                            </div>
+                            <div>
+                                {unusedTotal.toFixed(2)} / {currentTotal.toFixed(2)}
+                            </div>
+
+                        </div>
+                        <h2 className='font-extrabold text-3xl'>Categories:</h2>
+
+                    </div>
+                )
+            }
+            {
+                !userData.purchaseHistory && (
                     <div>
                         <div className='font-extrabold text-center text-2xl py-4'>
                             <div>
