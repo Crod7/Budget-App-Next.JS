@@ -19,7 +19,7 @@ const CategoryCreate: React.FC = () => {
 
     // Calculates user's budget from monthly expenses
     const [categoryName, setCategoryName] = useState<string>('');
-    const [categoryAmount, setCategoryAmount] = useState<string>('')
+    const [categoryAmount, setCategoryAmount] = useState<string>('');
 
     // Generates an ID for the category
     function getRandomInt(min: number, max: number) {
@@ -42,7 +42,7 @@ const CategoryCreate: React.FC = () => {
                 return;
             }
 
-            // The purchase gets recorded in the user's purchase history
+            // The caregory gets recorded in the user's category history
             const categoryData = {
                 categoryName: categoryName,
                 categoryId: getRandomInt(0, 100000),

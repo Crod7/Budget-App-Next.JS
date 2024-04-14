@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { generateDateId } from '@/lib/functions/GenerateDateId';
+import UpdatedUser from '@/lib/database/apiFunctions/UpdateUser';
+
+
+
 //Redux Imports
-import { useSelector } from 'react-redux';
+import { setUserData } from '@/src/store/userSlice';
+import { setLoadingScreen } from '@/src/store/loadingScreenSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -10,6 +16,7 @@ import { useSelector } from 'react-redux';
 const CategoryList: React.FC = () => {
 
     // Redux
+    const dispatch = useDispatch();
     const userData = useSelector((state: any) => state.user.userData);
 
     // We want the user's budget after they have paid their fixed bills
@@ -49,6 +56,8 @@ const CategoryList: React.FC = () => {
             let purchases = userData.purchaseHistory
                 .filter((purchase: any) => purchase.purchaseDate === generateDateId())
                 .filter((purchase: any) => purchase.purchaseCategory === category.categoryName)
+
+
             const parseBudgetItem = (item: string) => parseFloat(item) || 0;
 
             for (let purchase of purchases) {
@@ -63,8 +72,11 @@ const CategoryList: React.FC = () => {
 
 
     // Below is the code needed to modify existing categories
-    const [showModal, setShowModal] = useState(false);
-    const [category, setCategory] = useState(Object)
+    const [showModal, setShowModal] = useState(false); // Opens the modal
+    const [category, setCategory] = useState(Object) // Sets the category that will be modified
+    const [newCategoryName, setNewCategoryName] = useState<string>('');
+    const [newCategoryAmount, setNewCategoryAmount] = useState<string>('');
+    const [selectedCategoryID, setSelectedCategoryID] = useState<Number>(0);
 
     // Below is the code needed to keep unused budget up to date.
 
@@ -82,22 +94,102 @@ const CategoryList: React.FC = () => {
 
     }, [category, userData]);
     console.log(userData)
+
+
+    const handleUpdateCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        dispatch(setLoadingScreen(true))
+
+        // Ensure newCategoryAmount is a valid integer
+        if (newCategoryName && newCategoryAmount) {
+            // Verify amount is a number
+            const categoryValue = parseFloat(newCategoryAmount);
+            if (isNaN(categoryValue) || categoryValue < 0 || !/^\d+(\.\d{1,2})?$/.test(categoryValue.toString())) {
+                alert('Please enter a valid amount with up to two decimal places.');
+                dispatch(setLoadingScreen(false))
+                return;
+            }
+            // Find the index of the category to be updated
+            const categoryIndex = userData.categories.findIndex((cat: any) => cat.categoryId === selectedCategoryID);
+            // If the category exists, update it
+            if (categoryIndex !== -1) {
+                const updatedCategories = [...userData.categories];
+                updatedCategories[categoryIndex] = {
+                    categoryName: newCategoryName,
+                    categoryId: selectedCategoryID,
+                    categoryAmount: parseFloat(newCategoryAmount)
+                };
+
+                const updatedUser = {
+                    ...userData,
+                    categories: updatedCategories,
+                };
+
+                try {
+                    await UpdatedUser(updatedUser);
+                    dispatch(setUserData(updatedUser));
+                } catch (error) {
+                    console.error("UpdateUser Failed: oh no.... our table.... it's broken. Inside CategoryCreate.tsx", error);
+                }
+            } else {
+                alert('Category not found for update.');
+            }
+            setNewCategoryName('');
+            setNewCategoryAmount('');
+        } else {
+            alert('Please fill in all fields.');
+        }
+        setShowModal(false)
+        dispatch(setLoadingScreen(false));
+
+    };
+
     return (
         <div>
+            {/** This modal will manage the update of the category by displaying all improtant information the user needs to know to update the category. */}
             {(showModal) && (
-                <div className='fixed top-0 left-0 w-full h-full bg-opacity-50 bg-black flex justify-center items-center z-40'>
-                    <div className='bg-gray-500 w-[700px] h-[500px] py-2 px-2 rounded-xl'>
-                        <button className="ml-[97%] font-extrabold text-xl" onClick={() => {
-                            setShowModal(false);
-                        }}>
-                            x
-                        </button>
-                        <div>
-                            Cow
-                        </div>
-                    </div>
+                <form onSubmit={handleUpdateCategory}>
 
-                </div>
+                    <div className='fixed top-0 left-0 w-full h-full bg-opacity-50 bg-black flex justify-center items-center z-40'>
+                        <div className='bg-gray-500 w-[700px] h-[500px] py-2 px-2 rounded-xl'>
+                            <button className="ml-[97%] font-extrabold text-xl" onClick={() => {
+                                setShowModal(false);
+                            }}>
+                                x
+                            </button>
+                            <div>
+                                <div className='font-extrabold py-4 min-w-[150px] rounded-2xl'>
+                                    Current Category ID: {category.categoryId}
+                                </div>
+
+                                <div className='font-extrabold py-4 min-w-[150px] rounded-2xl'>
+                                    Current Category Name: {category.categoryName}
+                                </div>
+
+                                <input
+                                    type="text"
+                                    placeholder='Category Name'
+                                    className='p-2 my-2 rounded-2xl shadow-xl border w-[100%] font-extrabold'
+                                    value={newCategoryName}
+                                    onChange={(e) => setNewCategoryName(e.target.value)}
+                                />
+                                <div className='font-extrabold py-4 min-w-[150px] rounded-2xl'>
+                                    Current Category Amount: {category.categoryAmount}
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder='Amount in this budget'
+                                    className='p-2 my-2 rounded-2xl shadow-xl border w-[100%] font-extrabold'
+                                    value={newCategoryAmount}
+                                    onChange={(e) => setNewCategoryAmount(e.target.value)}
+                                />
+                                <button type="submit" className='font-extrabold bg-green-500 p-4 min-w-[150px] rounded-2xl'>Submit Changes</button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
             )}
             {
                 userData.purchaseHistory && userData.purchaseHistory.length > 0 && (
@@ -142,8 +234,12 @@ const CategoryList: React.FC = () => {
                         <div className='ml-auto'>
                             {generateRemainingBalance(category.categoryAmount, category)} / {category.categoryAmount}
                         </div>
+                        {/** When the user selects the modify button we open the modal with the category's information loaded in. */}
                         <button type="submit" onClick={() => {
-                            setCategory(category);
+                            setCategory(category); // We set the category to the one we are trying to modify
+                            setNewCategoryAmount(category.categoryAmount) // This sets the current value as the default value
+                            setNewCategoryName(category.categoryName) // This sets the current value as the default value
+                            setSelectedCategoryID(category.categoryId)
                             setShowModal(true);
                         }} className='font-extrabold bg-gray-500 p-4 ml-4 min-w-[50px] rounded-2xl'>Modify</button>
                     </div>
